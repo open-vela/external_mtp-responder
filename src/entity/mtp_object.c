@@ -104,6 +104,7 @@ mtp_uint32 _entity_get_object_info_size(mtp_obj_t *obj, ptp_string_t *file_name)
 {
 	int ret;
 	ptp_string_t keywords;
+	mtp_wchar wtemp[2] = { 0 };
 	ptp_time_string_t create_time_str = {0};
 	ptp_time_string_t modify_time_str = {0};
 	mtp_uint32 size = FIXED_LENGTH_MEMBERS_SIZE;
@@ -116,7 +117,7 @@ mtp_uint32 _entity_get_object_info_size(mtp_obj_t *obj, ptp_string_t *file_name)
 		return 0;
 	}
 
-	_prop_copy_char_to_ptpstring(&keywords, (mtp_wchar *)"", WCHAR_TYPE);
+	_prop_copy_char_to_ptpstring(&keywords, wtemp, WCHAR_TYPE);
 
 	size += _prop_size_ptpstring(file_name);
 	size += _prop_size_ptptimestring(&create_time_str);
@@ -264,6 +265,7 @@ mtp_uint32 _entity_pack_obj_info(mtp_obj_t *obj, ptp_string_t *file_name,
 	ptp_time_string_t create_time_str = { 0 };
 	ptp_time_string_t modify_time_str = { 0 };
 	ptp_string_t keywords;
+	mtp_wchar wtemp[2] = { 0 };
 
 	retv_if(buf == NULL, 0);
 	retv_if(obj == NULL, 0);
@@ -274,7 +276,7 @@ mtp_uint32 _entity_pack_obj_info(mtp_obj_t *obj, ptp_string_t *file_name,
 		return 0;
 	}
 
-	_prop_copy_char_to_ptpstring(&keywords, (mtp_wchar *)"", WCHAR_TYPE);
+	_prop_copy_char_to_ptpstring(&keywords, wtemp, WCHAR_TYPE);
 
 	if (buf_sz < _entity_get_object_info_size(obj, file_name)) {
 		ERR("Buffer size is less than object info size");
