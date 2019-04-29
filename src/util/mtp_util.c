@@ -407,14 +407,14 @@ uid_t _util_get_active_user()
 	int user_cnt = 0;
 	int ret;
 
-	user_cnt = sd_get_active_uids(&active_user_list);
+	user_cnt = sd_get_uids(&active_user_list);
 	if (user_cnt <= 0) {
 		/* LCOV_EXCL_START */
 		ret = _util_wait_for_user();
 		if (ret < 0)
 			return -1;
 
-		user_cnt = sd_get_active_uids(&active_user_list);
+		user_cnt = sd_get_uids(&active_user_list);
 		/* LCOV_EXCL_STOP */
 	}
 
