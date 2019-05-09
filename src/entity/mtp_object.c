@@ -440,6 +440,7 @@ mtp_bool _entity_init_mtp_object_params(
 
 	if (NULL == obj->obj_info) {
 		g_free(obj->file_path);
+		obj->file_path = NULL;
 		return FALSE;
 	}
 	_entity_init_object_info_params(obj->obj_info, store_id, h_parent,
