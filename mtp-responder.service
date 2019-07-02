@@ -6,7 +6,6 @@ StartLimitIntervalSec=0
 User=network_fw
 Group=network_fw
 SupplementaryGroups=priv_mediastorage priv_externalstorage
-Type=simple
 ExecStart=/usr/bin/mtp-responder
 KillMode=process
 SmackProcessLabel=System
