@@ -135,8 +135,12 @@ void _mtp_init(add_rem_store_t sel)
 	}
 
 	sync_partner = vconf_get_str(VCONFKEY_MTP_SYNC_PARTNER_STR);
-	if (sync_partner != NULL && strlen(sync_partner) > 0) {
-		_device_set_sync_partner(sync_partner);
+	if (sync_partner != NULL) {
+		if (strlen(sync_partner) > 0)
+			_device_set_sync_partner(sync_partner);
+		else
+			_device_set_sync_partner(MTP_DEV_PROPERTY_SYNCPARTNER);
+
 		g_free(sync_partner);
 	} else {
 		_device_set_sync_partner(MTP_DEV_PROPERTY_SYNCPARTNER);
