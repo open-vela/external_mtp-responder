@@ -72,10 +72,6 @@ cp -f scripts/500.%{name}-upgrade.sh %{buildroot}%{upgrade_script_path}
 install -D -m 0644 mtp-responder.service %{buildroot}/%{_unitdir}/mtp-responder.service
 install -D -m 0644 mtp-responder.socket %{buildroot}/%{_unitdir}/mtp-responder.socket
 
-%post
-mkdir -p %{_sysconfdir}/systemd/default-extra-dependencies/ignore-units.d/
-ln -sf %{_unitdir}/mtp-responder.service %{_sysconfdir}/systemd/default-extra-dependencies/ignore-units.d/
-
 %files
 %manifest mtp-responder.manifest
 %license LICENSE.APLv2
