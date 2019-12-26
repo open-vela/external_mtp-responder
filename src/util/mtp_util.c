@@ -348,8 +348,8 @@ static bool _util_device_external_supported_cb(int storage_id, storage_type_e ty
 	//DBG("storage id: %d, path: %s", storage_id, path);
 
 	if (type == STORAGE_TYPE_EXTERNAL && path != NULL) {
-		strncpy(storage_path, path, strlen(path)+1);
-		storage_path[strlen(path)] = 0;
+		strncpy(storage_path, path, MTP_MAX_PATHNAME_SIZE);
+		storage_path[MTP_MAX_PATHNAME_SIZE] = 0;
 		//DBG("external storage path : %s", storage_path);
 	}
 
@@ -367,7 +367,7 @@ void _util_get_external_path(char *external_path)
 /* LCOV_EXCL_START */
 		ERR("get external storage path Fail");
 		if (external_path != NULL) {
-			strncpy(external_path, MTP_EXTERNAL_PATH_CHAR, sizeof(MTP_EXTERNAL_PATH_CHAR));
+			strncpy(external_path, MTP_EXTERNAL_PATH_CHAR, MTP_MAX_PATHNAME_SIZE);
 			external_path[sizeof(MTP_EXTERNAL_PATH_CHAR) - 1] = 0;
 		}
 	}
@@ -461,15 +461,15 @@ void _util_get_internal_path(char *internal_path)
 	if (active_name == NULL) {
 		/* LCOV_EXCL_START */
 		ERR("active_name is NULL");
-		strncpy(internal_path, MTP_USER_DIRECTORY, sizeof(MTP_USER_DIRECTORY));
+		strncpy(internal_path, MTP_USER_DIRECTORY, MTP_MAX_PATHNAME_SIZE);
 		internal_path[sizeof(MTP_USER_DIRECTORY) - 1] = 0;
 		return;
 		/* LCOV_EXCL_STOP */
 	}
 
 	if (internal_path != NULL) {
-		strncpy(internal_path, MTP_INTERNAL_PATH_CHAR, sizeof(MTP_INTERNAL_PATH_CHAR));
-		strncat(internal_path, active_name, strlen(active_name) + 1);
+		strncpy(internal_path, MTP_INTERNAL_PATH_CHAR, MTP_MAX_PATHNAME_SIZE);
+		strncat(internal_path, active_name, MTP_MAX_PATHNAME_SIZE - sizeof(MTP_INTERNAL_PATH_CHAR));
 		strncat(internal_path, "/media", 7);
 		internal_path[strlen(internal_path)] = 0;
 	}
