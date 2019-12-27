@@ -18,6 +18,7 @@
 #include <glib/gprintf.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdint.h>
 #include "mtp_support.h"
 #include "ptp_datacodes.h"
 #include "mtp_util.h"
@@ -152,7 +153,7 @@ void _util_wchar_cpy(mtp_wchar *dest, const mtp_wchar *src)
 	ret_if(src == NULL);
 	ret_if(dest == NULL);
 
-	if (!((int)dest & 0x1) && !((int)src & 0x1)) {
+	if (!((uintptr_t)dest & 0x1) && !((uintptr_t)src & 0x1)) {
 		/* 2-byte aligned */
 		mtp_wchar *temp = dest;
 
@@ -191,7 +192,7 @@ void _util_wchar_ncpy(mtp_wchar *dest, const mtp_wchar *src, unsigned long n)
 	ret_if(src == NULL);
 	ret_if(dest == NULL);
 
-	if (!((int)dest & 0x1) && !((int)src & 0x1)) {	/* 2-byte aligned */
+	if (!((uintptr_t)dest & 0x1) && !((uintptr_t)src & 0x1)) {	/* 2-byte aligned */
 		temp = dest;
 
 		while (n && (*temp++ = *src++))
@@ -231,7 +232,7 @@ void _util_wchar_ncpy(mtp_wchar *dest, const mtp_wchar *src, unsigned long n)
  */
 size_t _util_wchar_len(const mtp_wchar *s)
 {
-	if (!((int)s & 0x1)) {	/* 2-byte aligned */
+	if (!((uintptr_t)s & 0x1)) {	/* 2-byte aligned */
 		mtp_wchar *temp = (mtp_wchar *)s;
 
 		while (*temp++)

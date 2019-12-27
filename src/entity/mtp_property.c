@@ -1452,7 +1452,7 @@ mtp_bool _prop_is_valid_integer(prop_info_t *prop_info, mtp_uint64 value)
 		mtp_uint32 ii;
 		for (ii = 0; ii < prop_info->supp_value_list.nnodes;
 				ii++, node = node->link) {
-			if (value == (mtp_uint32) node->value)
+			if (value == GPOINTER_TO_UINT(node->value))
 				return TRUE;
 		/* LCOV_EXCL_STOP */
 		}
@@ -2421,7 +2421,7 @@ mtp_uint32 _prop_pack_device_prop_desc(device_prop_desc_t *prop,
 					ii < prop->propinfo.supp_value_list.nnodes;
 					ii++, node = node->link) {
 
-				value = (mtp_uint32)node->value;
+				value = GPOINTER_TO_UINT(node->value);
 				memcpy(temp, &value, prop->propinfo.dts_size);
 #ifdef __BIG_ENDIAN__
 				_util_conv_byte_order(temp, prop->propinfo.dts_size);
@@ -3044,7 +3044,7 @@ mtp_uint32 _prop_pack_obj_prop_desc(obj_prop_desc_t *prop, mtp_uchar *buf,
 					ii < prop->propinfo.supp_value_list.nnodes;
 					ii++, node = node->link) {
 
-				value = (mtp_uint32)node->value;
+				value = GPOINTER_TO_UINT(node->value);
 				memcpy(temp, &value, prop->propinfo.dts_size);
 #ifdef __BIG_ENDIAN__
 				_util_conv_byte_order(temp, prop->propinfo.dts_size);
@@ -3637,7 +3637,7 @@ mtp_bool _prop_add_supp_integer_val(prop_info_t *prop_info, mtp_uint32 value)
 	}
 
 	/* Create the node and append it. */
-	_util_add_node(&(prop_info->supp_value_list), (void *)value);
+	_util_add_node(&(prop_info->supp_value_list), GUINT_TO_POINTER(value));
 
 	return TRUE;
 }
