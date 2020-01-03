@@ -28,10 +28,15 @@ enum functionfs_flags {
 };
 #endif
 
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#define cpu_to_le16(x)  (x)
+#define cpu_to_le32(x)  (x)
+#else
 #define cpu_to_le16(x)  ((((x) >> 8) & 0xffu) | (((x) & 0xffu) << 8))
 #define cpu_to_le32(x)  \
 	((((x) & 0xff000000u) >> 24) | (((x) & 0x00ff0000u) >>  8) | \
 	(((x) & 0x0000ff00u) <<  8) | (((x) & 0x000000ffu) << 24))
+#endif
 #define le32_to_cpu(x)  le32toh(x)
 #define le16_to_cpu(x)  le16toh(x)
 
