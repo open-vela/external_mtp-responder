@@ -17,7 +17,9 @@
 #include <linux/usb/ch9.h>
 #include <linux/usb/functionfs.h>
 #include <endian.h>
+#include <linux/version.h>
 
+#if (LINUX_VERSION_CODE >> 16) < 4
 #ifndef FUNCTIONFS_DESCRIPTORS_MAGIC_V2
 #define FUNCTIONFS_DESCRIPTORS_MAGIC_V2 3
 enum functionfs_flags {
@@ -26,6 +28,7 @@ enum functionfs_flags {
         FUNCTIONFS_HAS_SS_DESC = 4,
         FUNCTIONFS_HAS_MS_OS_DESC = 8,
 };
+#endif
 #endif
 
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
