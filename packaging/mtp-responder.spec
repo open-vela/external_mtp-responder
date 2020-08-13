@@ -13,72 +13,79 @@ Source0:    %{name}-%{version}.tar.gz
 Source1001: %{name}.manifest
 BuildRequires: cmake
 BuildRequires: libgcrypt-devel
-BuildRequires: pkgconfig(glib-2.0)
-BuildRequires: pkgconfig(dlog)
-BuildRequires: pkgconfig(vconf)
-BuildRequires: pkgconfig(tapi)
 BuildRequires: pkgconfig(capi-content-media-content)
 BuildRequires: pkgconfig(capi-media-metadata-extractor)
 BuildRequires: pkgconfig(capi-system-info)
-Buildrequires: pkgconfig(storage)
-BuildRequires: pkgconfig(libsystemd-daemon)
+BuildRequires: pkgconfig(dlog)
+BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(libsystemd)
-Requires(post): /usr/bin/vconftool
-
+Buildrequires: pkgconfig(storage)
+BuildRequires: pkgconfig(tapi)
+BuildRequires: pkgconfig(vconf)
 %if 0%{?gtests:1}
 BuildRequires:  pkgconfig(gmock)
+%endif
+%if 0%{?gcov:1}
+BuildRequires: lcov
+BuildRequires: tar
 %endif
 
 %description
 This package includes a daemon which processes Media Transper Protocol(MTP) commands as MTP responder role.
 
+%if 0%{?gcov:1}
+%package gcov
+Summary: Coverage Data of %{name}
+Group: Network & Connectivity/Testing
+
+%description gcov
+The %{name}-gcov pacakge contains gcov objects
+%endif
 
 %prep
 %setup -q
 cp %{SOURCE1001} .
 
-
 %build
-export CFLAGS="$CFLAGS -Wno-deprecated-declarations"
-
 %if 0%{?gcov:1}
 export CFLAGS+=" -fprofile-arcs -ftest-coverage"
 export CXXFLAGS+=" -fprofile-arcs -ftest-coverage"
 export LDFLAGS+=" -lgcov"
 %endif
 
-%cmake . \
-%if 0%{?gtests:1}
+%cmake . -DCMAKE_VERBOSE_MAKEFILE=OFF \
+	-DBIN_INSTALL_DIR:PATH=%{_bindir} \
+	-DSYSCONF_DIR:PATH=%{_sysconfdir} \
+	-DSYSTEMD_DIR:PATH=%{_unitdir} \
 	-DBUILD_GTESTS=%{?gtests:1}%{!?gtests:0} \
-%endif
-%if 0%{?gcov:1}
 	-DBUILD_GCOV=%{?gcov:1}%{!?gcov:0}
-%endif
-
-make %{?jobs:-j%jobs}
-
+make %{?_smp_mflags}
 
 %install
 %make_install
 
-mkdir -p %{buildroot}/%{_prefix}/lib/udev/rules.d
-cp conf/99-mtp-responder.rules %{buildroot}/%{_prefix}/lib/udev/rules.d/99-mtp-responder.rules
-
-install -D -m 0644 conf/mtp-responder.service %{buildroot}/%{_unitdir}/mtp-responder.service
-install -D -m 0644 conf/mtp-responder.socket %{buildroot}/%{_unitdir}/mtp-responder.socket
+%if 0%{?gcov:1}
+find .. -name '*.gcno' | tar cf %{name}-gcov.tar -T -
+install -d -m 755 %{buildroot}%{_datadir}/gcov/obj
+tar xf %{name}-gcov.tar -C %{buildroot}%{_datadir}/gcov/obj
+%endif
 
 %files
-%manifest mtp-responder.manifest
-%license LICENSE.APLv2
-%defattr(-,root,root,-)
-%{_bindir}/mtp-responder
-%{_unitdir}/mtp-responder.service
-%{_unitdir}/mtp-responder.socket
-%{_prefix}/lib/udev/rules.d/99-mtp-responder.rules
-/opt/var/lib/misc/mtp-responder.conf
-/etc/mtp-responder/descs
-/etc/mtp-responder/strs
-
+%manifest %{name}.manifest
+%{_bindir}/%{name}
+%{_unitdir}/%{name}.service
+%{_unitdir}/%{name}.socket
+%{_prefix}/lib/udev/rules.d/99-%{name}.rules
+/opt/var/lib/misc/%{name}.conf
+%{_sysconfdir}/%{name}/descs
+%{_sysconfdir}/%{name}/strs
 %if 0%{?gtests:1}
 %{_bindir}/gtest*
 %endif
+%license LICENSE.APLv2
+
+%if 0%{?gcov:1}
+%files gcov
+%{_datadir}/gcov/*
+%endif
+
