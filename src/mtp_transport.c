@@ -30,7 +30,6 @@
 /*
  * GLOBAL AND EXTERN VARIABLES
  */
-extern mtp_config_t g_conf;
 extern mtp_mgr_t g_mtp_mgr;
 
 /*

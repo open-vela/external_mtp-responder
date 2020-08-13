@@ -34,7 +34,7 @@
  */
 extern mtp_mgr_t g_mtp_mgr;
 pthread_t g_eh_thrd;	/* event handler thread */
-mtp_int32 g_pipefd[2];
+static mtp_int32 g_pipefd[2];
 
 /*
  * STATIC VARIABLES
