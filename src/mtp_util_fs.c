@@ -340,8 +340,7 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 		const mtp_char *newpath, mtp_uint32 store_id, mtp_int32 *error)
 {
 	DIR *dir = NULL;
-	struct dirent entry = { 0 };
-	struct dirent *entryptr = NULL;
+	struct dirent *entry;
 	mtp_int32 retval = 0;
 	mtp_char old_pathname[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 	mtp_char new_pathname[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
@@ -358,19 +357,16 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 		return FALSE;
 	}
 
-	retval = readdir_r(dir, &entry, &entryptr);
-
-	while (retval == 0 && entryptr != NULL) {
+	while ((entry = readdir(dir)) != NULL) {
 		/* Skip the names "." and ".." as we don't want to recurse on them. */
-		if (!g_strcmp0(entry.d_name, ".") ||
-				!g_strcmp0(entry.d_name, "..")) {
-			retval = readdir_r(dir, &entry, &entryptr);
+		if (!g_strcmp0(entry->d_name, ".")
+				|| !g_strcmp0(entry->d_name, "..")) {
 			continue;
 		}
 		g_snprintf(old_pathname, MTP_MAX_PATHNAME_SIZE + 1,
-				"%s/%s", origpath, entry.d_name);
+				"%s/%s", origpath, entry->d_name);
 		g_snprintf(new_pathname, MTP_MAX_PATHNAME_SIZE + 1,
-				"%s/%s", newpath, entry.d_name);
+				"%s/%s", newpath, entry->d_name);
 
 		if (stat(old_pathname, &entryinfo) != 0) {
 			ERR("Error statting [%s] errno [%d]\n", old_pathname, errno);
@@ -451,7 +447,7 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 				   Skip copy and retain the read-only file
 				   on destination */
 				if (EACCES == *error)
-					goto DONE;
+					continue;
 				_entity_dealloc_mtp_obj(new_obj);
 				closedir(dir);
 				return FALSE;
@@ -476,8 +472,6 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 			/* The file is created. Add object to mtp store */
 			_entity_add_object_to_store(store, new_obj);
 		}
-DONE:
-		retval = readdir_r(dir, &entry, &entryptr);
 	}
 
 	closedir(dir);
@@ -537,9 +531,7 @@ mtp_int32 _util_remove_dir_children_recursive(const mtp_char *dirname,
 	retv_if(dirname == NULL, FALSE);
 
 	DIR *dir = NULL;
-	struct dirent entry = { 0 };
-	struct dirent *entryptr = NULL;
-	mtp_int32 retval = 0;
+	struct dirent *entry;
 	mtp_char pathname[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 	struct stat entryinfo;
 	mtp_int32 ret = MTP_ERROR_NONE;
@@ -551,18 +543,15 @@ mtp_int32 _util_remove_dir_children_recursive(const mtp_char *dirname,
 		return MTP_ERROR_GENERAL;
 	}
 
-	retval = readdir_r(dir, &entry, &entryptr);
-
-	while (retval == 0 && entryptr != NULL) {
+	while ((entry = readdir(dir)) != NULL) {
 		/* Skip the names "." and ".."
 		   as we don't want to recurse on them. */
-		if (!g_strcmp0(entry.d_name, ".") ||
-				!g_strcmp0(entry.d_name, "..")) {
-			retval = readdir_r(dir, &entry, &entryptr);
+		if (!g_strcmp0(entry->d_name, ".")
+				|| !g_strcmp0(entry->d_name, "..")) {
 			continue;
 		}
 		g_snprintf(pathname, MTP_MAX_PATHNAME_SIZE + 1,
-				"%s/%s", dirname, entry.d_name);
+				"%s/%s", dirname, entry->d_name);
 		if (stat(pathname, &entryinfo) != 0) {
 			ERR("Error statting %s errno [%d]\n", pathname, errno);
 			closedir(dir);
@@ -581,7 +570,7 @@ mtp_int32 _util_remove_dir_children_recursive(const mtp_char *dirname,
 				DBG("Folder[%s] contains read-only files,hence\
 						folder is not deleted\n", pathname);
 				/* Read the next entry */
-				goto DONE;
+				continue;
 			}
 			if (rmdir(pathname) < 0) {
 				ERR("deletion fail [%s], errno [%d]\n", pathname, errno);
@@ -602,7 +591,7 @@ mtp_int32 _util_remove_dir_children_recursive(const mtp_char *dirname,
 							(S_IWOTH & entryinfo.st_mode))) {
 					ret = MTP_ERROR_OBJECT_WRITE_PROTECTED;
 					DBG("File [%s] is readOnly:Deletion Fail\n", pathname);
-					goto DONE;
+					continue;
 				}
 			}
 #endif /* MTP_SUPPORT_SET_PROTECTION */
@@ -614,12 +603,6 @@ mtp_int32 _util_remove_dir_children_recursive(const mtp_char *dirname,
 				return MTP_ERROR_GENERAL;
 			}
 			*num_of_deleted_file += 1;
-		}
-DONE:
-		retval = readdir_r(dir, &entry, &entryptr);
-		if (retval != 0) {
-			closedir(dir);
-			return MTP_ERROR_GENERAL;
 		}
 	}
 
@@ -748,27 +731,26 @@ mtp_bool _util_ifind_first(mtp_char *dirname, DIR **dirp, dir_entry_t *dir_info)
  */
 mtp_bool _util_ifind_next(mtp_char *dir_name, DIR *dirp, dir_entry_t *dir_info)
 {
-	mtp_int32 ret = 0;
-	struct dirent entry = {0};
+	struct dirent *entry;
 	struct stat stat_buf = {0};
-	struct dirent *result = NULL;
 	mtp_char path_name[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 
 	retv_if(dir_name == NULL, FALSE);
 	retv_if(dir_info == NULL, FALSE);
 
 	do {
-		ret = readdir_r(dirp, &entry, &result);
-		if (ret != 0) {
-			ERR("readdir_r Fail : %d\n", ret);
+		errno = 0;
+		entry = readdir(dirp);
+		if (errno != 0) {
+			ERR("readdir Fail : %d\n", errno);
 			return FALSE;
-		} else if (result == NULL) {
+		} else if (entry == NULL) {
 			DBG("There is no more entry");
 			return FALSE;
 		}
 
 		if (_util_create_path(path_name, sizeof(path_name),
-					dir_name, entry.d_name) == FALSE) {
+					dir_name, entry->d_name) == FALSE) {
 			continue;
 		}
 
