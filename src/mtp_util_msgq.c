@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
-#include "mtp_msgq.h"
+#include "mtp_util_msgq.h"
 
 /*
  * FUNCTIONS

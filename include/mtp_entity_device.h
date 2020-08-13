@@ -21,8 +21,8 @@
 extern "C" {
 #endif
 
-#include "mtp_store.h"
-#include "mtp_property.h"
+#include "mtp_entity_store.h"
+#include "mtp_entity_property.h"
 
 #define MTP_NUM_DEVICE_DEFAULT		3
 

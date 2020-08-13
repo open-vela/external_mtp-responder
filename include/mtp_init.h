@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-#include "mtp_store.h"
+#include "mtp_entity_store.h"
 
 #define MTP_LOG_FILE			"/var/log/mtp.log"
 #define MTP_LOG_MAX_SIZE		5 * 1024 * 1024 /*5MB*/

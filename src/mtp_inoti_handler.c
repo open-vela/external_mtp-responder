@@ -20,11 +20,11 @@
 #include <sys/stat.h>
 #include <glib.h>
 #include <glib/gprintf.h>
-#include "mtp_thread.h"
+#include "mtp_util_thread.h"
 #include "mtp_inoti_handler.h"
 #include "mtp_event_handler.h"
-#include "mtp_support.h"
-#include "mtp_device.h"
+#include "mtp_util_support.h"
+#include "mtp_entity_device.h"
 #include "mtp_util.h"
 
 /*

@@ -15,9 +15,9 @@
  */
 
 #include <glib.h>
-#include "mtp_property.h"
-#include "mtp_media_info.h"
-#include "mtp_support.h"
+#include "mtp_entity_property.h"
+#include "mtp_util_media_info.h"
+#include "mtp_util_support.h"
 #include "mtp_transport.h"
 
 /*

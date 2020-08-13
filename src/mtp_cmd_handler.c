@@ -24,14 +24,14 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <vconf.h>
-#include "mtp_support.h"
+#include "mtp_util_support.h"
 #include "ptp_datacodes.h"
-#include "mtp_media_info.h"
+#include "mtp_util_media_info.h"
 #include "mtp_usb_driver.h"
 #include "mtp_cmd_handler.h"
 #include "mtp_cmd_handler_util.h"
 #include "mtp_transport.h"
-#include "mtp_thread.h"
+#include "mtp_util_thread.h"
 
 /*
  * GLOBAL AND EXTERN VARIABLES

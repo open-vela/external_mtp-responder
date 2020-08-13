@@ -62,10 +62,10 @@ make %{?jobs:-j%jobs}
 %make_install
 
 mkdir -p %{buildroot}/%{_prefix}/lib/udev/rules.d
-cp packaging/99-mtp-responder.rules %{buildroot}/%{_prefix}/lib/udev/rules.d/99-mtp-responder.rules
+cp conf/99-mtp-responder.rules %{buildroot}/%{_prefix}/lib/udev/rules.d/99-mtp-responder.rules
 
-install -D -m 0644 mtp-responder.service %{buildroot}/%{_unitdir}/mtp-responder.service
-install -D -m 0644 mtp-responder.socket %{buildroot}/%{_unitdir}/mtp-responder.socket
+install -D -m 0644 conf/mtp-responder.service %{buildroot}/%{_unitdir}/mtp-responder.service
+install -D -m 0644 conf/mtp-responder.socket %{buildroot}/%{_unitdir}/mtp-responder.socket
 
 %files
 %manifest mtp-responder.manifest

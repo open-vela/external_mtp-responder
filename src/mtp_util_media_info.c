@@ -21,10 +21,10 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <metadata_extractor.h>
-#include "mtp_media_info.h"
+#include "mtp_util_media_info.h"
 #include "mtp_util.h"
-#include "mtp_support.h"
-#include "mtp_fs.h"
+#include "mtp_util_support.h"
+#include "mtp_util_fs.h"
 
 /* LCOV_EXCL_START */
 static bool __fill_media_id_cb(media_info_h media, void *user_data)

@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdint.h>
-#include "mtp_support.h"
+#include "mtp_util_support.h"
 #include "ptp_datacodes.h"
 #include "mtp_util.h"
 

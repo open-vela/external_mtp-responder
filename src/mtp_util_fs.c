@@ -24,14 +24,15 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <errno.h>
 #include <glib.h>
 #include <glib/gprintf.h>
 #include <storage.h>
-#include "mtp_fs.h"
+#include "mtp_util_fs.h"
 #include "mtp_util.h"
-#include "mtp_support.h"
+#include "mtp_util_support.h"
 #include "ptp_datacodes.h"
-#include "mtp_device.h"
+#include "mtp_entity_device.h"
 
 /*
  * FUNCTIONS

@@ -19,10 +19,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <glib.h>
-#include "mtp_fs.h"
-#include "mtp_support.h"
+#include "mtp_util_fs.h"
+#include "mtp_util_support.h"
 #include "mtp_util.h"
-#include "mtp_device.h"
+#include "mtp_entity_device.h"
 
 
 extern mtp_bool g_is_full_enum;

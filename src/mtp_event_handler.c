@@ -23,11 +23,11 @@
 #include "mtp_event_handler.h"
 #include "mtp_cmd_handler.h"
 #include "mtp_util.h"
-#include "mtp_thread.h"
+#include "mtp_util_thread.h"
 #include "mtp_init.h"
 #include "mtp_usb_driver.h"
 #include "mtp_transport.h"
-#include "mtp_media_info.h"
+#include "mtp_util_media_info.h"
 
 /*
  * GLOBAL AND EXTERN VARIABLES

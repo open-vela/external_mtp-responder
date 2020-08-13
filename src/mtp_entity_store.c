@@ -20,9 +20,9 @@
 #include <dirent.h>
 #include <system_info.h>
 #include "mtp_util.h"
-#include "mtp_support.h"
-#include "mtp_device.h"
-#include "mtp_media_info.h"
+#include "mtp_util_support.h"
+#include "mtp_entity_device.h"
+#include "mtp_util_media_info.h"
 #include "mtp_transport.h"
 #include "mtp_inoti_handler.h"
 

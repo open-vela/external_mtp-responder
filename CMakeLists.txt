@@ -2,14 +2,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(mtp-responder C)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/entity)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/transport)
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include/util)
 
 AUX_SOURCE_DIRECTORY(${CMAKE_SOURCE_DIR}/src SRCS)
-AUX_SOURCE_DIRECTORY(${CMAKE_SOURCE_DIR}/src/entity SRCS)
-AUX_SOURCE_DIRECTORY(${CMAKE_SOURCE_DIR}/src/transport SRCS)
-AUX_SOURCE_DIRECTORY(${CMAKE_SOURCE_DIR}/src/util SRCS)
 
 IF(BUILD_GCOV)
 	ADD_DEFINITIONS("-DTIZEN_TEST_GCOV")
@@ -33,10 +27,10 @@ ADD_EXECUTABLE(${PROJECT_NAME} ${SRCS})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${pkgs_LDFLAGS} pthread rt gcrypt)
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION bin)
-INSTALL(FILES mtp-responder.conf DESTINATION /opt/var/lib/misc)
+INSTALL(FILES conf/mtp-responder.conf DESTINATION /opt/var/lib/misc)
 
-ADD_EXECUTABLE(extract_descs_strs ${CMAKE_SOURCE_DIR}/src/extract_descs/mtp_extract_descs_strs.c
-	${CMAKE_SOURCE_DIR}/src/transport/mtp_descs_strings.c)
+ADD_EXECUTABLE(extract_descs_strs ${CMAKE_SOURCE_DIR}/ffs_tool/ffs_descs_strs_writer.c
+	${CMAKE_SOURCE_DIR}/src/mtp_descs_strings.c)
 ADD_CUSTOM_COMMAND(OUTPUT descs strs
 	COMMAND ./extract_descs_strs
 	DEPENDS extract_descs_strs)
@@ -46,5 +40,5 @@ INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/descs DESTINATION /etc/mtp-responder)
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/strs DESTINATION /etc/mtp-responder)
 
 IF(BUILD_GTESTS)
-	ADD_SUBDIRECTORY(unittest)
+	ADD_SUBDIRECTORY(tests)
 ENDIF(BUILD_GTESTS)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <mtp_thread.h>
+#include "mtp_util_thread.h"
 
 /*
  * FUNCTIONS

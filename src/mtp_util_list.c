@@ -15,7 +15,7 @@
  */
 
 #include <glib.h>
-#include "mtp_list.h"
+#include "mtp_util_list.h"
 
 /*
  * FUNCTIONS
