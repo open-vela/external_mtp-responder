@@ -25,9 +25,6 @@
 #include <system_info.h>
 #include <vconf.h>
 #include <gcrypt.h>
-#include "mtp_util.h"
-#include "mtp_support.h"
-#include "mtp_fs.h"
 #include <storage/storage.h>
 #include <sys/stat.h>
 #include <systemd/sd-login.h>
@@ -36,6 +33,9 @@
 #include <media_content_internal.h>
 #include <pwd.h>
 #include <poll.h>
+#include "mtp_util.h"
+#include "mtp_util_support.h"
+#include "mtp_util_fs.h"
 
 /* time to wait for user session creation, in ms */
 #define WAIT_FOR_USER_TIMEOUT 10000

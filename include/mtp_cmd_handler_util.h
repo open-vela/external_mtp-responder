@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-#include "mtp_device.h"
+#include "mtp_entity_device.h"
 
 typedef struct {
 	mtp_uint32 store_id;

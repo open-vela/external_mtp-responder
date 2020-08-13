@@ -18,7 +18,7 @@
 #include "ptp_container.h"
 #include "ptp_datacodes.h"
 #include "mtp_transport.h"
-#include "mtp_support.h"
+#include "mtp_util_support.h"
 #include "mtp_util.h"
 
 /*

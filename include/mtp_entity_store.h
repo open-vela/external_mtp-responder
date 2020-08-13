@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-#include "mtp_object.h"
+#include "mtp_entity_object.h"
 
 
 /* First six members of SStorageInfo structure */

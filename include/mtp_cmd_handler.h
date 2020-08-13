@@ -21,8 +21,8 @@
 extern "C" {
 #endif
 
-#include "mtp_object.h"
-#include "mtp_device.h"
+#include "mtp_entity_object.h"
+#include "mtp_entity_device.h"
 #include "ptp_container.h"
 #include "mtp_event_handler.h"
 

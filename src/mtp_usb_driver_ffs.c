@@ -22,13 +22,13 @@
 #include <signal.h>
 #include <glib.h>
 #include "mtp_usb_driver.h"
-#include "mtp_device.h"
+#include "mtp_entity_device.h"
 #include "mtp_descs_strings.h"
 #include "ptp_datacodes.h"
-#include "mtp_support.h"
+#include "mtp_util_support.h"
 #include "ptp_container.h"
-#include "mtp_msgq.h"
-#include "mtp_thread.h"
+#include "mtp_util_msgq.h"
+#include "mtp_util_thread.h"
 #include "mtp_transport.h"
 #include "mtp_event_handler.h"
 #include "mtp_init.h"

@@ -21,8 +21,8 @@
 extern "C" {
 #endif
 
-#include "mtp_list.h"
-#include "mtp_object.h"
+#include "mtp_util_list.h"
+#include "mtp_entity_object.h"
 
 #define MAX_SIZE_IN_BYTES_OF_PROP_VALUE		16000
 #define ELEMENT_NOT_FOUND			-1
