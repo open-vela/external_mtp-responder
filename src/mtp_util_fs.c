@@ -341,7 +341,6 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 {
 	DIR *dir = NULL;
 	struct dirent *entry;
-	mtp_int32 retval = 0;
 	mtp_char old_pathname[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 	mtp_char new_pathname[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 	struct stat entryinfo;
@@ -475,7 +474,7 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 	}
 
 	closedir(dir);
-	return (retval == 0) ? TRUE : FALSE;
+	return TRUE;
 }
 
 mtp_bool _util_file_move(const mtp_char *origpath, const mtp_char *newpath,
