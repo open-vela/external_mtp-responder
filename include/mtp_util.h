@@ -152,8 +152,8 @@ phone_status_t _util_get_local_lock_status(void);
 void _util_set_local_lock_status(const phone_status_t val);
 void _util_get_external_path(char *external_path);
 void _util_get_internal_path(char *internal_path);
-mtp_bool _util_media_content_connect();
-void _util_media_content_disconnect();
+mtp_bool _util_media_content_connect(void);
+void _util_media_content_disconnect(void);
 
 #ifdef __cplusplus
 }
