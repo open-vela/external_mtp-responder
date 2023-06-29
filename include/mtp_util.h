@@ -39,8 +39,8 @@ extern "C" {
 
 #define DBG(format, args...) SLOGD(format, ##args)
 #define ERR(format, args...) SLOGE(format, ##args)
-#define DBG_SECURE(format, args...) SECURE_SLOGD(format, ##args)
-#define ERR_SECURE(format, args...) SECURE_SLOGE(format, ##args)
+#define DBG_SECURE(format, args...) SLOGD(format, ##args)
+#define ERR_SECURE(format, args...) SLOGE(format, ##args)
 
 #define ret_if(expr) \
 	do { \
