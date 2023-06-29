@@ -28,8 +28,7 @@ extern "C" {
 #ifndef LOG_TAG
 #define LOG_TAG "MTP-RESPONDER"
 #endif /* LOG_TAG */
-#include <dlog.h>
-#include <media_content.h>
+#include <log/log.h>
 
 #define FIND_CMD_LEN				300
 #define FIND_CMD	"/usr/bin/find %s \\( -iname '*.jpg' -o -iname '*.gif' " \
