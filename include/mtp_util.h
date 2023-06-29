@@ -132,7 +132,7 @@ typedef struct {
 	mtp_uint32 params[1];
 } usb_status_req_t;
 
-void _util_print_error();
+void _util_print_error(void);
 mtp_int32 _util_get_battery_level(void);
 mtp_bool _util_get_serial(mtp_char *serial, mtp_uint32 len);
 void _util_get_model_name(mtp_char *model_name, mtp_uint32 len);
