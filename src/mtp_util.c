@@ -21,8 +21,6 @@
 #include <inttypes.h>
 #include <time.h>
 #include <pthread.h>
-#include <tapi_common.h>
-#include <ITapiModem.h>
 #include <system_info.h>
 #include <vconf.h>
 #include <gcrypt.h>
@@ -74,11 +72,7 @@ mtp_int32 _util_get_battery_level(void)
 
 mtp_bool _util_get_serial(mtp_char *serial, mtp_uint32 len)
 {
-	TapiHandle *handle = NULL;
-	mtp_char *imei_no = NULL;
 	mtp_char *serial_no = NULL;
-	mtp_uint16 i = 0;
-	char hash_value[MD5_HASH_LEN] = { 0 };
 
 	if (serial == NULL || len <= MD5_HASH_LEN * 2) {
 		ERR("serial is null or length is less than (MD5_HASH_LEN * 2)");
@@ -99,36 +93,7 @@ mtp_bool _util_get_serial(mtp_char *serial, mtp_uint32 len)
 	}
 /* LCOV_EXCL_START */
 	g_free(serial_no);
-
-	handle = tel_init(NULL);
-	if (!handle) {
-		ERR("tel_init Fail");
-		return FALSE;
-	}
-
-	imei_no = tel_get_misc_me_imei_sync(handle);
-	if (!imei_no) {
-		ERR("tel_get_misc_me_imei_sync Fail");
-		tel_deinit(handle);
-		return FALSE;
-	}
-
-	tel_deinit(handle);
-
-	gcry_md_hash_buffer(GCRY_MD_MD5, hash_value, imei_no, strlen(imei_no));
-
-	for (i = 0; i < MD5_HASH_LEN; i++)
-		g_snprintf(&serial[i*2], 3, "%02X", hash_value[i]);
-
-	if (vconf_set_str(VCONFKEY_MTP_SERIAL_NUMBER_STR, serial) == -1) {
-		ERR("vconf_set Fail for %s\n",
-				VCONFKEY_MTP_SERIAL_NUMBER_STR);
-		g_free(imei_no);
-		return TRUE;
-	}
-
-	g_free(imei_no);
-	return TRUE;
+	return FALSE;
 }
 /* LCOV_EXCL_STOP */
 
