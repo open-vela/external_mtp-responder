@@ -66,7 +66,7 @@
 #endif/*MTP_SUPPORT_ALBUM_ART*/
 
 /* external features */
-#define MTP_SUPPORT_OBJECTADDDELETE_EVENT
+#undef MTP_SUPPORT_OBJECTADDDELETE_EVENT
 
 /*For printing Commands sent by initiator
  *This needs to be diabled later before commercial binary release
