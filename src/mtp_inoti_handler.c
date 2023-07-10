@@ -32,11 +32,11 @@
  */
 pthread_mutex_t g_cmd_inoti_mutex;
 
-#ifdef MTP_SUPPORT_OBJECTADDDELETE_EVENT
 mtp_char g_last_created_dir[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 mtp_char g_last_deleted[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 mtp_char g_last_moved[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 mtp_char g_last_copied[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
+#ifdef MTP_SUPPORT_OBJECTADDDELETE_EVENT
 static pthread_t g_inoti_thrd;
 static mtp_int32 g_cnt_watch_folder = 0;
 static mtp_int32 g_inoti_fd;
