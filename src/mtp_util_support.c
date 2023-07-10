@@ -588,7 +588,8 @@ void _util_conv_wstr_to_guid(mtp_wchar *wstr, mtp_uint64 *guid)
 		count++;
 
 	memset(guid, 0, sizeof(temp));
-	skip_idx = sizeof(temp) / sizeof(mtp_wchar);
+	skip_idx  = sizeof(temp);
+	skip_idx /= sizeof(mtp_wchar);
 
 	for (cur_idx = 0; cur_idx < count; cur_idx += skip_idx) {
 

@@ -1229,10 +1229,10 @@ mtp_err_t _hutil_write_file_data(mtp_uint32 store_id, mtp_obj_t *obj,
 
 #ifdef MTP_SUPPORT_DELETE_MEDIA_ALBUM_FILE
 	/* in case of alb extension, does not make real file just skip below */
-	if (obj_info->obj_fmt != PTP_FMT_ASSOCIATION ||
-			(obj_info->obj_fmt == PTP_FMT_ASSOCIATION &&
-			 obj_info->association_type != PTP_ASSOCIATIONTYPE_UNDEFINED &&
-			 obj_info->association_type != PTP_ASSOCIATIONTYPE_FOLDER)) {
+	if (obj->obj_info->obj_fmt != PTP_FMT_ASSOCIATION ||
+			(obj->obj_info->obj_fmt == PTP_FMT_ASSOCIATION &&
+			 obj->obj_info->association_type != PTP_ASSOCIATIONTYPE_UNDEFINED &&
+			 obj->obj_info->association_type != PTP_ASSOCIATIONTYPE_FOLDER)) {
 
 		_util_get_file_extn(fname, extn);
 		if (strlen(extn) && !strcasecmp(extn, "alb")) {
@@ -1253,8 +1253,8 @@ mtp_err_t _hutil_write_file_data(mtp_uint32 store_id, mtp_obj_t *obj,
 	}
 
 #ifdef MTP_SUPPORT_SET_PROTECTION
-	if ((obj_info->protcn_status == PTP_PROTECTIONSTATUS_READONLY) ||
-			(obj_info->ProtectionStatus ==
+	if ((obj->obj_info->protcn_status == PTP_PROTECTIONSTATUS_READONLY) ||
+			(obj->obj_info->ProtectionStatus ==
 			 MTP_PROTECTIONSTATUS_READONLY_DATA)) {
 		file_attr_t attrs;
 		if (_util_get_file_attrs(fname, &attrs) == FALSE) {

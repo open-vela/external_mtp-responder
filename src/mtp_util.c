@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <inttypes.h>
 #include <time.h>
 #include <pthread.h>
 #include <tapi_common.h>
@@ -29,10 +30,13 @@
 #include <sys/stat.h>
 #include <systemd/sd-login.h>
 #include <sys/types.h>
+#include <sys/time.h>
 //#include <grp.h>
 #include <media_content_internal.h>
+#include <mtp_util_media_info.h>
 #include <pwd.h>
 #include <poll.h>
+#include <glib.h>
 #include "mtp_util.h"
 #include "mtp_util_support.h"
 #include "mtp_util_fs.h"
@@ -44,7 +48,7 @@ static phone_state_t g_ph_status = { 0 };
 
 
 /* LCOV_EXCL_START */
-void _util_print_error()
+void _util_print_error(void)
 {
 	/*In glibc-2.7, the longest error message string is 50 characters
 	  ("Invalid or incomplete multibyte or wide character"). */
@@ -219,8 +223,8 @@ void _util_gen_alt_serial(mtp_char *serial, mtp_uint32 len)
 		return;
 	}
 	_util_get_model_name(model_name, sizeof(model_name));
-	g_snprintf(serial, len, "%s-%010ld-%011ld", model_name,
-			st.tv_sec, st.tv_usec);
+	g_snprintf(serial, len, "%s-%010"PRIdMAX"-%011ld", model_name,
+			(intmax_t)st.tv_sec, st.tv_usec);
 
 	if (vconf_set_str(VCONFKEY_MTP_SERIAL_NUMBER_STR, serial) == -1)
 		ERR("vconf_set Fail %s\n", VCONFKEY_MTP_SERIAL_NUMBER_STR);
@@ -373,7 +377,7 @@ void _util_get_external_path(char *external_path)
 	}
 }
 
-int _util_wait_for_user()
+int _util_wait_for_user(void)
 {
 	__attribute__((cleanup(sd_login_monitor_unrefp))) sd_login_monitor *monitor = NULL;
 	int ret;
@@ -400,7 +404,7 @@ int _util_wait_for_user()
 }
 /* LCOV_EXCL_STOP */
 
-uid_t _util_get_active_user()
+uid_t _util_get_active_user(void)
 {
 	uid_t *active_user_list = NULL;
 	uid_t active_user = 0;
@@ -478,7 +482,7 @@ void _util_get_internal_path(char *internal_path)
 }
 
 /* LCOV_EXCL_START */
-mtp_bool _util_media_content_connect()
+mtp_bool _util_media_content_connect(void)
 {
 	mtp_int32 ret = 0;
 	uid_t active_user = 0;
@@ -494,7 +498,7 @@ mtp_bool _util_media_content_connect()
 	return TRUE;
 }
 
-void _util_media_content_disconnect()
+void _util_media_content_disconnect(void)
 {
 	media_content_disconnect();
 }

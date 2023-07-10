@@ -69,7 +69,7 @@ mtp_bool _util_thread_join(pthread_t tid, void **data)
 	res = pthread_join(tid, data);
 	if (res != 0) {
 		ERR("pthread_join Fail res = [%d] for thread [%lu] errno [%d]\n",
-				res, tid, errno);	//	LCOV_EXCL_LINE
+				res, (unsigned long)tid, errno);	//	LCOV_EXCL_LINE
 		return FALSE;	//	LCOV_EXCL_LINE
 	}
 
@@ -87,7 +87,7 @@ mtp_bool _util_thread_cancel(pthread_t tid)
 
 	res = pthread_cancel(tid);
 	if (res != 0) {
-		ERR("pthread_cancel Fail [%lu] errno [%d]\n", tid, errno);
+		ERR("pthread_cancel Fail [%lu] errno [%d]\n", (unsigned long)tid, errno);
 		return FALSE;
 	}
 

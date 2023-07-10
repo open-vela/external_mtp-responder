@@ -2795,7 +2795,7 @@ static void __send_object_prop_list(mtp_handler_t *hdlr)
 
 		mtp_store_t *store = NULL;
 		struct statfs buf = { 0 };
-		mtp_int32 ret = 0;
+		mtp_int32 res = 0;
 
 		store = _device_get_store(store_id);
 		if (store == NULL) {
@@ -2803,8 +2803,8 @@ static void __send_object_prop_list(mtp_handler_t *hdlr)
 			resp = PTP_RESPONSE_STORENOTAVAILABLE;
 		} else {
 			DBG("StorePath = [%s]\n", store->root_path);
-			ret = statfs(store->root_path, &buf);
-			if (ret < 0 || buf.f_type == MSDOS_SUPER_MAGIC) {
+			res = statfs(store->root_path, &buf);
+			if (res < 0 || buf.f_type == MSDOS_SUPER_MAGIC) {
 				ERR("File System does not support files over 4gb");
 				resp = MTP_RESPONSE_OBJECT_TOO_LARGE;
 			}
