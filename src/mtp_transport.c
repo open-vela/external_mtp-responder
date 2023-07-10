@@ -49,8 +49,8 @@ static status_info_t g_status;
  * STATIC FUNCTIONS
  */
 static void *__transport_thread_data_rcv(void *func);
-static mtp_err_t __transport_init_io();
-static void __transport_deinit_io();
+static mtp_err_t __transport_init_io(void);
+static void __transport_deinit_io(void);
 
 /*
  * FUNCTIONS
@@ -296,7 +296,7 @@ void _transport_send_zlp(void)
 	return;
 }
 
-static mtp_err_t __transport_init_io()
+static mtp_err_t __transport_init_io(void)
 {
 	mtp_int32 res = 0;
 	thread_func_t usb_write_thread = _transport_thread_usb_write;
@@ -357,7 +357,7 @@ cleanup:
 	return MTP_ERROR_GENERAL;
 }
 
-static void __transport_deinit_io()
+static void __transport_deinit_io(void)
 {
 	if (g_usb_threads_created == FALSE) {
 		ERR("io threads are not created.");
@@ -512,7 +512,7 @@ static void *__transport_thread_data_rcv(void *func)
 		}
 	}
 
-	ERR("thread_data_rcv[%lu] exiting\n", g_data_rcv);
+	ERR("thread_data_rcv[%lu] exiting\n", (unsigned long)g_data_rcv);
 	_util_thread_exit("__transport_thread_data_rcv is over");
 	return NULL;
 }

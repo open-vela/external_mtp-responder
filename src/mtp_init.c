@@ -18,7 +18,6 @@
 #include <sys/types.h>
 #include <sys/syscall.h>
 #include <glib.h>
-#include <glib-object.h>
 #include <malloc.h>
 #include <vconf.h>
 #include "mtp_init.h"
@@ -66,7 +65,7 @@ static void __mtp_exit(void);
 /* LCOV_EXCL_START */
 static void __mtp_exit(void)
 {
-	long cur_time;
+	time_t cur_time;
 
 	DBG("## Terminate all threads");
 	if (g_eh_thrd && g_eh_thrd != pthread_self()) {
@@ -517,7 +516,7 @@ void mtp_end_event(void)
 }
 /* LCOV_EXCL_STOP */
 
-static inline int _main_init()
+static inline int _main_init(void)
 {
 	pthread_mutexattr_t mutex_attr;
 

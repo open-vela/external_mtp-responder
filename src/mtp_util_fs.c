@@ -23,6 +23,7 @@
 #include <sys/sendfile.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/statvfs.h>
 #include <dirent.h>
 #include <errno.h>
 #include <glib.h>
@@ -454,10 +455,10 @@ mtp_bool _util_copy_dir_children_recursive(const mtp_char *origpath,
 #ifdef MTP_SUPPORT_SET_PROTECTION
 			mtp_bool ret = FALSE;
 
-			if (!((S_IWUSR & entryInfo.st_mode) ||
-						(S_IWGRP & entryInfo.st_mode) ||
-						(S_IWOTH & entryInfo.st_mode))) {
-				ret = _util_set_file_attrs(newPathName,
+			if (!((S_IWUSR & entryinfo.st_mode) ||
+						(S_IWGRP & entryinfo.st_mode) ||
+						(S_IWOTH & entryinfo.st_mode))) {
+				ret = _util_set_file_attrs(new_pathname,
 						MTP_FILE_ATTR_MODE_REG |
 						MTP_FILE_ATTR_MODE_READ_ONLY);
 				if (!ret) {

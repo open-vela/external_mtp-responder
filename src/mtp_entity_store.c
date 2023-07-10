@@ -17,6 +17,7 @@
 #include <glib.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <dirent.h>
 #include <system_info.h>
 #include "mtp_util.h"
@@ -1270,6 +1271,8 @@ void _entity_list_modified_files(mtp_uint32 minutes)
 			return;
 		}
 	}
+
+	(void)ret;
 
 	return;
 }
