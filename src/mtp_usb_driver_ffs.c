@@ -70,7 +70,7 @@ static void __handle_control_request(mtp_int32 request);
  */
 
 /* LCOV_EXCL_START */
-static mtp_bool __io_init()
+static mtp_bool __io_init(void)
 {
 	int ret;
 
@@ -145,8 +145,9 @@ static mtp_bool ffs_transport_init_usb_device(void)
 	status = __io_init();
 	if (!status) {
 		char error[256];
+		strerror_r(errno, error, sizeof(error));
 		ERR("Device node [%s] open failed, errno [%s]\n",
-		    MTP_EP0_PATH, strerror_r(errno, error, sizeof(error)));
+		    MTP_EP0_PATH, error);
 		return FALSE;
 	}
 
@@ -413,8 +414,8 @@ static void *ffs_transport_thread_usb_control(void *arg)
 		status = read(g_usb_ep0, &event, sizeof(event));
 		if (status < 0) {
 			char error[256];
-			ERR("read from ep0 failed: %s",
-			    strerror_r(errno, error, sizeof(error)));
+			strerror_r(errno, error, sizeof(error));
+			ERR("read from ep0 failed: %s", error);
 			continue;
 		}
 		DBG("FUNCTIONFS event received: %d", event.type);
@@ -528,8 +529,8 @@ static void __handle_control_request(mtp_int32 request)
 		status = read(g_usb_ep0, &cancelreq_data, sizeof(cancelreq_data));
 		if (status < 0) {
 			char error[256];
-			ERR("Failed to read data for CANCELIO request\n: %s",
-					strerror_r(errno, error, sizeof(error)));
+			strerror_r(errno, error, sizeof(error));
+			ERR("Failed to read data for CANCELIO request\n: %s", error);
 		}
 		break;
 
