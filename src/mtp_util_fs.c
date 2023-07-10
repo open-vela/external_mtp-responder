@@ -986,9 +986,9 @@ void _util_fill_guid_array(void *guidarray, mtp_uint32 start_index,
 			_util_utf8_to_utf16(objfullpath,
 					sizeof(objfullpath) / WCHAR_SIZ, file_name);
 			_util_conv_wstr_to_guid(objfullpath, (mtp_uint64 *)guid);
-			memcpy(&(guidptr[pguidarray->num_elements]),
+			memcpy(&(guidptr[pguidarray->num_ele]),
 					guid, sizeof(guid));
-			pguidarray->num_elements += sizeof(mtp_uint32);
+			pguidarray->num_ele += sizeof(mtp_uint32);
 		}
 
 		if (buffer[read_bytes - 1] != '\n')

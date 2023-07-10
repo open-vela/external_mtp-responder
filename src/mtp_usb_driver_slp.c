@@ -411,7 +411,7 @@ static void __handle_control_request(mtp_int32 request)
 
 static void __receive_signal(mtp_int32 n, siginfo_t *info, void *arg)
 {
-	mtp_int32 request = info->si_int;
+	mtp_int32 request = info->si_value.sival_int;
 
 	DBG("Received SIgnal From Kernel\n");
 	__handle_control_request(request);
