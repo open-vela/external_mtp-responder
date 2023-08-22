@@ -24,7 +24,7 @@
 #include <system_info.h>
 #include <vconf.h>
 #include <gcrypt.h>
-#include <storage/storage.h>
+#include <storage.h>
 #include <sys/stat.h>
 #include <systemd/sd-login.h>
 #include <sys/types.h>
