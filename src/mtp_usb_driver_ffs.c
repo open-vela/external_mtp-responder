@@ -23,7 +23,6 @@
 #include <glib.h>
 #include "mtp_usb_driver.h"
 #include "mtp_entity_device.h"
-#include "mtp_descs_strings.h"
 #include "ptp_datacodes.h"
 #include "mtp_util_support.h"
 #include "ptp_container.h"
