@@ -15,7 +15,6 @@
  */
 
 #include <sys/vfs.h>
-#include <linux/magic.h>
 #include <sys/time.h>
 #include <sys/syscall.h>
 #include <sys/types.h>

@@ -33,7 +33,6 @@
 #include "mtp_util.h"
 #include "mtp_util_media_info.h"
 #include "mtp_usb_driver.h"
-#include "mtp_descs_strings.h"
 
 class MtpResponder {
 	private:
