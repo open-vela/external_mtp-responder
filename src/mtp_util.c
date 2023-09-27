@@ -409,7 +409,7 @@ uid_t _util_get_active_user(void)
 
 	free(active_user_list);
 
-	if (active_user <= 0) {
+	if (active_user < 0) {
 		ERR("UID is not proper value : %d", active_user);
 		return -1;
 	}
