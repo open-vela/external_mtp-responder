@@ -3158,7 +3158,6 @@ static void __enum_store_not_enumerated(mtp_uint32 obj_handle,
 void _receive_mq_data_cb(mtp_char *buffer, mtp_int32 buf_len)
 {
 	cmd_blk_t cmd = { 0 };
-	mtp_uint32 rx_size = _get_rx_pkt_size();
 
 	if (_transport_get_mtp_operation_state() < MTP_STATE_READY_SERVICE) {
 		ERR("MTP is stopped or initializing. ignore all");
@@ -3172,7 +3171,7 @@ void _receive_mq_data_cb(mtp_char *buffer, mtp_int32 buf_len)
 		DBG("PTP_EVENTCODE_CANCELTRANSACTION, just change state to IDLE");
 		_transport_set_control_event(PTP_EVENTCODE_CANCELTRANSACTION);
 		_device_set_phase(DEVICE_PHASE_IDLE);
-		if ((buf_len == rx_size) ||
+		if ((buf_len == _get_rx_pkt_size()) ||
 				(buf_len < sizeof(header_container_t))) {
 			DBG("Cancelling Transaction. data length [%d]\n",
 					buf_len);

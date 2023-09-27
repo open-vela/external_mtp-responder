@@ -41,13 +41,13 @@
 /* Support Features */
 
 /* cancel transactio, device reset, mainly used in mtpmain.c */
-#define MTP_SUPPORT_CONTROL_REQUEST
+/* #define MTP_SUPPORT_CONTROL_REQUEST */
 
 #define MTP_SUPPORT_ALBUM_ART		/* album art image file */
 /*#define MTP_SUPPORT_DELETE_MEDIA_ALBUM_FILE*/
 
 /*support battery level using mtp_pal_phone_get_status(MTP_PAL_BATTLEVEL) */
-#define MTP_SUPPORT_DEVICEPROP_BATTERYLEVEL
+/* #define MTP_SUPPORT_DEVICEPROP_BATTERYLEVEL */
 
 /*support get wmpinfo.xml from hidden file list */
 /*#define MTP_SUPPORT_HIDE_WMPINFO_XML*/
@@ -77,10 +77,10 @@
  * Transport related configuration
  */
 /* Internal Storage */
-#define MTP_INTERNAL_PATH_CHAR		"/opt/usr/home/"
+#define MTP_INTERNAL_PATH_CHAR		"/data/"
 
 /* External Storage */
-#define MTP_EXTERNAL_PATH_CHAR	"/opt/media/SDCardA1"
+#define MTP_EXTERNAL_PATH_CHAR		"/mnt"
 #define MTP_DEVICE_ICON			"/usr/share/mtp/device_icon.ico"
 
 /* File For WMP extesions */
@@ -118,10 +118,10 @@
 #define MTP_STORAGE_DESC_EXT		"Card"
 
 /*Devices Property*/
-#define MTP_DEFAULT_MODEL_NAME			"SAMSUNG Mobile"
-#define MTP_DEFAULT_DEVICE_VERSION		""
-#define MTP_DEV_PROPERTY_SYNCPARTNER		"Longhorn Sync Engine"
-#define MTP_DEV_PROPERTY_FRIENDLYNAME		"SAMSUNG Mobile"
+#define MTP_DEFAULT_MODEL_NAME			"Vela Watch"
+#define MTP_DEFAULT_DEVICE_VERSION		"1.0"
+#define MTP_DEV_PROPERTY_SYNCPARTNER		"None"
+#define MTP_DEV_PROPERTY_FRIENDLYNAME		"Vela Watch"
 #define MTP_DEV_PROPERTY_NULL_SYNCPARTNER	"{00000000-0000-0000-0000-000000000000}"
 
 /*temporary file*/

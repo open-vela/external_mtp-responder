@@ -24,6 +24,7 @@ extern "C" {
 #include "mtp_config.h"
 #include "mtp_datatype.h"
 #include "mtp_util_msgq.h"
+#include "ioctl.h"
 
 /* Start of driver related defines */
 #define MTP_DRIVER_PATH			"/dev/usb_mtp_gadget"
