@@ -45,8 +45,8 @@ typedef struct _open_files_info {
 
 void *_thread_inoti(void *arg);
 void _inoti_add_watch_for_fs_events(mtp_char *path);
-mtp_bool _inoti_init_filesystem_evnts();
-void _inoti_deinit_filesystem_events();
+mtp_bool _inoti_init_filesystem_evnts(void);
+void _inoti_deinit_filesystem_events(void);
 #endif /* MTP_SUPPORT_OBJECTADDDELETE_EVENT */
 
 #ifdef __cplusplus

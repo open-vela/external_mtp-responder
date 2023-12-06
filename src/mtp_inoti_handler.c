@@ -66,7 +66,7 @@ static void __process_object_added_event(mtp_char *fullpath,
 		mtp_char *file_name, mtp_char *parent_path);
 static void __process_object_deleted_event(mtp_char *fullpath,
 		mtp_char *file_name, mtp_bool isdir);
-static void __destroy_inoti_open_files_list();
+static void __destroy_inoti_open_files_list(void);
 #endif /* MTP_SUPPORT_OBJECTADDDELETE_EVENT */
 
 /*
@@ -160,7 +160,7 @@ void _inoti_add_watch_for_fs_events(mtp_char *path)
 	return;
 }
 
-mtp_bool _inoti_init_filesystem_evnts()
+mtp_bool _inoti_init_filesystem_evnts(void)
 {
 	mtp_bool ret = FALSE;
 
@@ -316,7 +316,7 @@ static mtp_bool __process_inoti_event(struct inotify_event *event)
 }
 /* LCOV_EXCL_STOP */
 
-void _inoti_deinit_filesystem_events()
+void _inoti_deinit_filesystem_events(void)
 {
 	if (TRUE != _util_thread_cancel(g_inoti_thrd)) {
 		ERR("thread cancel fail.");
@@ -693,7 +693,7 @@ static void __process_object_deleted_event(mtp_char *fullpath,
 }
 /* LCOV_EXCL_STOP */
 
-static void __destroy_inoti_open_files_list()
+static void __destroy_inoti_open_files_list(void)
 {
 	open_files_info_t *current = NULL;
 
