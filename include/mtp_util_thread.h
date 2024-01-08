@@ -55,6 +55,8 @@ typedef void *(*thread_func_t) (void *pArg);
 		} \
 	} while (0);\
 
+mtp_bool _util_thread_create_with_stack(pthread_t *tid, const mtp_char *tname,
+		mtp_int32 thread_state, thread_func_t thread_func, void *arg, int stacksize);
 mtp_bool _util_thread_create(pthread_t *tid, const mtp_char *tname,
 		mtp_int32 thread_state, thread_func_t thread_func, void *arg);
 mtp_bool _util_thread_join(pthread_t tid, void **data);

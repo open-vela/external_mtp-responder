@@ -19,8 +19,8 @@
 /*
  * FUNCTIONS
  */
-mtp_bool _util_thread_create(pthread_t *tid, const mtp_char *tname,
-		mtp_int32 thread_state, thread_func_t thread_func, void *arg)
+mtp_bool _util_thread_create_with_stack(pthread_t *tid, const mtp_char *tname,
+		mtp_int32 thread_state, thread_func_t thread_func, void *arg, int stacksize)
 {
 	int error = 0;
 	pthread_attr_t attr;
@@ -46,6 +46,7 @@ mtp_bool _util_thread_create(pthread_t *tid, const mtp_char *tname,
 		}
 	}
 
+	pthread_attr_setstacksize(&attr, stacksize);
 	error = pthread_create(tid, &attr, thread_func, arg);
 	if (error != 0) {
 		/* LCOV_EXCL_START */
@@ -60,6 +61,13 @@ mtp_bool _util_thread_create(pthread_t *tid, const mtp_char *tname,
 		ERR("pthread_attr_destroy Fail [%d] errno [%d]\n", error, errno);	//	LCOV_EXCL_LINE
 
 	return TRUE;
+}
+
+mtp_bool _util_thread_create(pthread_t *tid, const mtp_char *tname,
+		mtp_int32 thread_state, thread_func_t thread_func, void *arg)
+{
+        return _util_thread_create_with_stack(tid, tname, thread_state,
+                                              thread_func, arg, MTP_DEFAULT_STACK_SIZE);
 }
 
 mtp_bool _util_thread_join(pthread_t tid, void **data)

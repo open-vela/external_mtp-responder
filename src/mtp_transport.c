@@ -423,9 +423,9 @@ mtp_bool _transport_init_interfaces(_cmd_handler_cb func)
 		return FALSE;
 	}
 
-	res = _util_thread_create(&g_data_rcv, "Data Receive thread",
+	res = _util_thread_create_with_stack(&g_data_rcv, "Data Receive thread",
 			PTHREAD_CREATE_JOINABLE, __transport_thread_data_rcv,
-			(void *)func);
+			(void *)func, MTP_TRANSPORT_STACK_SIZE);
 	if (res == FALSE) {
 		ERR("_util_thread_create(data_rcv) Fail");
 		__transport_deinit_io();
