@@ -363,7 +363,7 @@ mtp_obj_t *_entity_get_object_from_store(mtp_store_t *store, mtp_uint32 handle)
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail, Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail, Store id = [0x%x]\n", store->store_id);
 		return NULL;
 	}
 
@@ -393,7 +393,7 @@ mtp_obj_t *_entity_get_last_object_from_store(mtp_store_t *store,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return NULL;
 	}
 
@@ -418,7 +418,7 @@ mtp_obj_t *_entity_get_object_from_store_by_path(mtp_store_t *store,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return NULL;
 	}
 
@@ -460,7 +460,7 @@ mtp_uint32 _entity_get_objects_from_store(mtp_store_t *store,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return 0;
 	}
 
@@ -541,7 +541,7 @@ mtp_uint32 _entity_get_objects_from_store_by_format(mtp_store_t *store,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return 0;
 	}
 
@@ -579,7 +579,7 @@ mtp_uint32 _entity_get_num_object_with_same_format(mtp_store_t *store,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail, store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail, store id = [0x%x]\n", store->store_id);
 		return 0;
 	}
 
@@ -611,7 +611,7 @@ mtp_uint32 _entity_get_num_children(mtp_store_t *store, mtp_uint32 h_parent,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return 0;
 	}
 
@@ -654,7 +654,7 @@ mtp_uint32 _entity_get_child_handles(mtp_store_t *store, mtp_uint32 h_parent,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return 0;
 	}
 
@@ -683,7 +683,7 @@ mtp_uint32 _entity_get_child_handles_with_same_format(mtp_store_t *store,
 
 	iter = (slist_iterator *)_util_init_list_iterator(&(store->obj_list));
 	if (iter == NULL) {
-		ERR("Iterator init Fail Store id = [0x%x]\n", store->store_id);
+		DBG("Iterator init Fail Store id = [0x%x]\n", store->store_id);
 		return 0;
 	}
 

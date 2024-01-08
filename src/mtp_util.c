@@ -50,6 +50,10 @@ void _util_print_error(void)
 {
 	/*In glibc-2.7, the longest error message string is 50 characters
 	  ("Invalid or incomplete multibyte or wide character"). */
+
+        if (errno == 0)
+            return;
+
 	mtp_char buff[100] = {0};
 
 	strerror_r(errno, buff, sizeof(buff));
@@ -443,7 +447,7 @@ void _util_get_internal_path(char *internal_path)
 		internal_path[strlen(internal_path)] = 0;
 	}
 
-	ERR("internal path is %s", internal_path);
+	DBG("internal path is %s", internal_path);
 }
 
 /* LCOV_EXCL_START */

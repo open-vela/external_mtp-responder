@@ -37,7 +37,7 @@ extern "C" {
 	"-o -iname '*.wmv' -o -iname '*.avi' -o -iname '*.wma' " \
 	"-o -iname '*.mp3' \\) -mmin -%d >> %s"
 
-#define DBG(format, args...) SLOGD(format, ##args)
+#define DBG(format, args...) //SLOGD(format, ##args)
 #define ERR(format, args...) SLOGE(format, ##args)
 #define DBG_SECURE(format, args...) SLOGD(format, ##args)
 #define ERR_SECURE(format, args...) SLOGE(format, ##args)
@@ -45,7 +45,7 @@ extern "C" {
 #define ret_if(expr) \
 	do { \
 		if (expr) { \
-			ERR("(%s)", #expr); \
+			DBG("(%s)", #expr); \
 			return; \
 		} \
 	} while (0)
@@ -53,7 +53,7 @@ extern "C" {
 #define retv_if(expr, val) \
 	do { \
 		if (expr) { \
-			ERR("(%s)", #expr); \
+			DBG("(%s)", #expr); \
 			return (val); \
 		} \
 	} while (0)
@@ -61,7 +61,7 @@ extern "C" {
 #define retm_if(expr, fmt, arg...) \
 	do { \
 		if (expr) { \
-			ERR(fmt, ##arg); \
+			DBG(fmt, ##arg); \
 			return; \
 		} \
 	} while (0)
@@ -69,7 +69,7 @@ extern "C" {
 #define retvm_if(expr, val, fmt, arg...) \
 	do { \
 		if (expr) { \
-			ERR(fmt, ##arg); \
+			DBG(fmt, ##arg); \
 			return (val); \
 		} \
 	} while (0)

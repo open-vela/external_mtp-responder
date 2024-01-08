@@ -88,7 +88,7 @@ FILE* _util_file_open(const mtp_char *filename, file_mode_t mode,
 
 	fhandle = fopen(filename, fmode);
 	if (fhandle == NULL) {
-		ERR("File open Fail:mode[0x%x], errno [%d]\n", mode, errno);
+		ERR("File open Fail:mode[0x%x], errno [%d], name:%s\n", mode, errno, filename);
 		ERR_SECURE("filename[%s]\n", filename);
 		*error = errno;
 		return NULL;

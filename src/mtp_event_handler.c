@@ -255,7 +255,7 @@ static mtp_bool __process_event_request(mtp_event_t *evt)
 		break;
 
 	default:
-		ERR("Unknown action");
+		ERR("Unknown action:%d", evt->action);
 		break;
 	}
 	return TRUE;

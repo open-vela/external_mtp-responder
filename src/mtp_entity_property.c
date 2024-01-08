@@ -875,7 +875,7 @@ mtp_bool _prop_append_ele_ptparray(ptp_array_t *parray, mtp_uint32 element)
 	mtp_uint32 *ptr32 = NULL;
 
 	if (parray->num_ele >= parray->arr_size) {
-		ERR("parray->num_ele [%d] is bigger than parray->arr_size [%d]\n",
+		DBG("parray->num_ele [%d] is bigger than parray->arr_size [%d]\n",
 				parray->num_ele, parray->arr_size);
 		if (FALSE == _prop_grow_ptparray(parray,
 					((parray->arr_size * 3) >> 1) + 2))
