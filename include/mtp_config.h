@@ -77,11 +77,11 @@
  * Transport related configuration
  */
 /* Internal Storage */
-#define MTP_INTERNAL_PATH_CHAR		"/data/"
+#define MTP_INTERNAL_PATH_CHAR		"/log/"
 
 /* External Storage */
-#define MTP_EXTERNAL_PATH_CHAR		"/mnt"
-#define MTP_DEVICE_ICON			"/usr/share/mtp/device_icon.ico"
+#define MTP_EXTERNAL_PATH_CHAR		"/data/"
+#define MTP_DEVICE_ICON			"/data/mtp/device_icon.ico"
 
 /* File For WMP extesions */
 #define MTP_FILES_MODIFIED_FILES	"/tmp/mtp_mod_files.log"
@@ -118,10 +118,10 @@
 #define MTP_STORAGE_DESC_EXT		"Card"
 
 /*Devices Property*/
-#define MTP_DEFAULT_MODEL_NAME			"Vela Watch"
+#define MTP_DEFAULT_MODEL_NAME			"Xiaomi Watch"
 #define MTP_DEFAULT_DEVICE_VERSION		"1.0"
 #define MTP_DEV_PROPERTY_SYNCPARTNER		"None"
-#define MTP_DEV_PROPERTY_FRIENDLYNAME		"Vela Watch"
+#define MTP_DEV_PROPERTY_FRIENDLYNAME		"Xiaomi Watch"
 #define MTP_DEV_PROPERTY_NULL_SYNCPARTNER	"{00000000-0000-0000-0000-000000000000}"
 
 /*temporary file*/
@@ -182,7 +182,7 @@
 #define MTP_VENDOR_EXTENSIONDESC_CHAR	\
 	"microsoft.com/WMDRMPD:10.1;microsoft.com/playready:1.10; "
 
-#define MTP_MANUFACTURER_CHAR		"Tizen"
+#define MTP_MANUFACTURER_CHAR		"XiaoMi"
 #define HAVE_OWN_WCHAR_CONVERSION
 
 #define MTP_MMAP_THRESHOLD	524288
