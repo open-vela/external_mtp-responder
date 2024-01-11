@@ -218,6 +218,7 @@ void _util_get_usb_status(phone_status_t *val)
 
 phone_status_t _util_get_local_usb_status(void)
 {
+	return MTP_PHONE_USB_CONNECTED;
 	return g_ph_status.usb_state;
 }
 

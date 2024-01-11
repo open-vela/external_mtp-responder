@@ -483,6 +483,7 @@ mtp_bool _util_file_move(const mtp_char *origpath, const mtp_char *newpath,
 {
 	mtp_int32 ret = 0;
 
+	ERR("mtp statistics log: file rename: oldpath:%s  and  newpath:%s\n", origpath, newpath);
 	ret = rename(origpath, newpath);
 	if (ret < 0) {
 		if (errno == EXDEV) {
