@@ -33,6 +33,8 @@
 #include "mtp_util_media_info.h"
 #include "mtp_usb_driver.h"
 
+#include "mtp_cmd_handler_util.h"
+
 /*
  * GLOBAL AND EXTERN VARIABLES
  */
@@ -107,6 +109,7 @@ void _mtp_init(add_rem_store_t sel)
 	mtp_char *sync_partner = NULL;
 	int vconf_ret = 0;
 	mtp_int32 error = 0;
+	ptp_array_t handle_arr = { 0 };
 
 	DBG("Initialization start!");
 
@@ -198,6 +201,12 @@ void _mtp_init(add_rem_store_t sel)
 
 	/* Install storage */
 	_device_install_storage(sel);
+
+	/* Get object handles */
+	_prop_init_ptparray(&handle_arr, UINT32_TYPE);
+	_hutil_get_object_handles(MTP_INTERNAL_STORE_ID, 0, PTP_OBJECTHANDLE_ALL, &handle_arr);
+	_hutil_get_object_handles(MTP_EXTERNAL_STORE_ID, 0, PTP_OBJECTHANDLE_ALL, &handle_arr);
+	_prop_deinit_ptparray(&handle_arr);
 
 #ifdef MTP_SUPPORT_OBJECTADDDELETE_EVENT
 	_inoti_init_filesystem_evnts();
