@@ -138,9 +138,9 @@ mtp_bool _eh_handle_usb_events(mtp_uint32 type)
 			return FALSE;
 		}
 
-		res = _util_thread_create(&g_eh_thrd,
+		res = _util_thread_create_with_stack(&g_eh_thrd,
 				"Mtp Event Request Handler", PTHREAD_CREATE_JOINABLE,
-				__thread_event_handler, NULL);
+				__thread_event_handler, NULL, MTP_TRANSPORT_STACK_SIZE);
 		if (FALSE == res) {
 			ERR("_util_thread_create() Fail");
 			return FALSE;
