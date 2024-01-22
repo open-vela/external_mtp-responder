@@ -73,6 +73,9 @@
  */
 #define MTP_SUPPORT_PRINT_COMMAND
 
+/*Using timer to check stroage whether is mounted*/
+/*#define MTP_SUPPORT_CHECK_STORAGE*/
+
 /*
  * Transport related configuration
  */
