@@ -32,13 +32,13 @@ mtp_bool _transport_select_driver(void)
 		return TRUE;
 	}
 
-	if (access(MTP_FFS_PATH, F_OK) == 0 || sd_listen_fds(0) >= 4) {
+	if (access(MTP_EP_IN_PATH, F_OK) == 0 || sd_listen_fds(0) >= 4) {
 		usb_driver = &mtp_usb_driver_ffs;
 		DBG("FFS driver selected");
 		return TRUE;
 	}
 
-	ERR("No suport for USB gadgets in kernel");
+	DBG("No suport for USB gadgets in kernel");
 	return FALSE;
 }
 

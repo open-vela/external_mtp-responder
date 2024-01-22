@@ -64,8 +64,8 @@ mtp_bool _eh_register_notification_callbacks(void)
 	/* For FFS transport we rely on ep0 events */
 	if (_transport_get_type() == MTP_TRANSPORT_FFS) {
 		DBG("Using FFS transport, assuming established connection");
-		_util_set_local_usb_status(MTP_PHONE_USB_DISCONNECTED);
-		_util_set_local_usbmode_status(1);
+		_util_set_local_usb_status(MTP_PHONE_USB_CONNECTED);
+		_util_set_local_usbmode_status(0);
 	} else {
 		DBG("Using legacy transport, registering vconf notifier");
 		_util_get_usb_status(&val);
@@ -121,6 +121,7 @@ mtp_bool _eh_handle_usb_events(mtp_uint32 type)
 			ERR("USB is disconnected. So just return.");
 			return FALSE;
 		}
+		is_usb_removed = 0;
 		is_usb_inserted = 1;
 
 		_transport_set_usb_discon_state(FALSE);
@@ -156,6 +157,7 @@ mtp_bool _eh_handle_usb_events(mtp_uint32 type)
 			return TRUE;
 		}
 
+		is_usb_inserted = 0;
 		is_usb_removed = 1;
 		DBG("USB is disconnected");
 
