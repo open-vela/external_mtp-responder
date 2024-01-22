@@ -1199,6 +1199,10 @@ void _entity_store_recursive_enum_folder_objects(mtp_store_t *store,
 		if (file_name[0] == '.') {
 			DBG_SECURE("Hidden file [%s]\n", entry.filename);
 		} else if (entry.type == MTP_DIR_TYPE) {
+			if (strstr(file_name, "quickapp") != NULL ||
+					strstr(file_name, "app") != NULL)
+				goto NEXT;
+
 			obj = _entity_add_folder_to_store(store, h_parent,
 					entry.filename, file_name, &entry);
 
