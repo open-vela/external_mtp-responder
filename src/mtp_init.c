@@ -93,6 +93,7 @@ static void __mtp_exit(void)
 	return;
 }
 
+#ifdef MTP_SUPPORT_CHECK_STORAGE
 static gboolean __check_internal_storage(gpointer user_data)
 {
 	pthread_mutex_lock(&g_cmd_inoti_mutex);
@@ -101,6 +102,7 @@ static gboolean __check_internal_storage(gpointer user_data)
 
 	return true;
 }
+#endif
 /* LCOV_EXCL_STOP */
 
 void _mtp_init(add_rem_store_t sel)
@@ -219,7 +221,9 @@ void _mtp_init(add_rem_store_t sel)
 		goto MTP_INIT_FAIL;
 	}
 
+#ifdef MTP_SUPPORT_CHECK_STORAGE
 	g_timeout_add(1000, __check_internal_storage, NULL);
+#endif
 
 	vconf_ret = vconf_notify_key_changed(VCONFKEY_SYSMAN_MMC_STATUS,
 			_handle_mmc_notification, NULL);
