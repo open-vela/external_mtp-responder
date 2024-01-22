@@ -76,6 +76,9 @@
 /*Using timer to check stroage whether is mounted*/
 /*#define MTP_SUPPORT_CHECK_STORAGE*/
 
+/*Using INOTIFY to check usb hotplug*/
+#define MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
+
 /*
  * Transport related configuration
  */

@@ -15,7 +15,9 @@
  */
 
 #include <unistd.h>
+#include <sys/inotify.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/syscall.h>
 #include <glib.h>
 #include <malloc.h>
@@ -83,9 +85,11 @@ static void __mtp_exit(void)
 		vconf_set_int(VCONFKEY_MTP_SYNC_TIME_INT, (int)cur_time);
 	}
 
+#ifndef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
 	DBG("## Terminate main loop");
 
 	g_main_loop_quit(g_mainloop);
+#endif
 
 	if (g_eh_thrd == pthread_self())
 		_util_thread_exit("Event handler stopped itself");
@@ -531,7 +535,73 @@ void mtp_end_event(void)
 
 static inline int _main_init(void)
 {
+	if (_transport_select_driver() == FALSE) {
+		DBG("_transport_select_driver fail");
+		return MTP_ERROR_GENERAL;
+	}
+
+	if (_eh_register_notification_callbacks() == FALSE) {
+		DBG("_eh_register_notification_callbacks() Fail");
+		return MTP_ERROR_GENERAL;
+	}
+
+	if (_eh_handle_usb_events(USB_INSERTED) == FALSE) {
+		ERR("_eh_handle_usb_events() Fail");
+		return MTP_ERROR_GENERAL;
+	}
+
+	return MTP_ERROR_NONE;
+}
+
+#ifdef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
+static gboolean usb_hotplug_cb(GIOChannel *chan, GIOCondition cond, gpointer data)
+{
+	char buffer[256];
+	size_t ret;
+	char *p;
+
+	ret = read(g_io_channel_unix_get_fd(chan), buffer, sizeof(buffer));
+
+	for (p = buffer; p < buffer + ret;) {
+		struct inotify_event *event = (struct inotify_event *)p;
+		if ((event->mask & IN_CREATE) != 0 &&
+			_util_get_local_usb_status() == MTP_PHONE_USB_DISCONNECTED) {
+			ERR("mtp start init\n");
+			_util_set_local_usb_status(MTP_PHONE_USB_CONNECTED);
+			_main_init();
+		} else if ((event->mask & IN_DELETE) != 0 &&
+			_util_get_local_usb_status() == MTP_PHONE_USB_CONNECTED) {
+			ERR("mtp deinit\n");
+			_util_set_local_usb_status(MTP_PHONE_USB_DISCONNECTED);
+			_eh_send_event_req_to_eh_thread(EVENT_USB_REMOVED, 0, 0, NULL);
+		}
+		p += sizeof(*event) + event->len;
+	}
+
+	return TRUE;
+}
+#endif
+
+#ifndef TIZEN_TEST_GTESTS
+int main(int argc, char *argv[])
+{
+	mtp_int32 ret;
 	pthread_mutexattr_t mutex_attr;
+#ifdef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
+	mtp_int32 fd = -1;
+	mtp_int32 watch_fd = -1;
+	GSource *io_source = NULL;
+	GIOChannel *io_chan = NULL;
+#endif
+
+#ifdef TIZEN_TEST_GCOV
+	setenv("GCOV_PREFIX", "/tmp/daemon", 1);
+#endif
+
+#ifdef TIZEN_TEST_GCOV
+	void __gcov_flush(void); // if you use C++, you should declare extern "C" at out of the function.
+	__gcov_flush();
+#endif
 
 	pthread_mutexattr_init(&mutex_attr);
 	pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
@@ -543,10 +613,50 @@ static inline int _main_init(void)
 	}
 	pthread_mutexattr_destroy(&mutex_attr);
 
-	if (_eh_handle_usb_events(USB_INSERTED) == FALSE) {
-		ERR("_eh_handle_usb_events() Fail");
+#ifdef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
+	fd = inotify_init();
+	if (fd > 0) {
+		struct stat statbuf;
+
+		if (stat(MTP_FFS_PATH, &statbuf) < 0) {
+			mkdir(MTP_FFS_PATH, 0666);
+		}
+
+		watch_fd = inotify_add_watch(fd, MTP_FFS_PATH, IN_DELETE | IN_CREATE);
+		if (watch_fd < 0) {
+			ERR("Failed to add watch for %s: %s\n", MTP_FFS_PATH, strerror(errno));
+			goto out;
+		}
+
+		io_chan = g_io_channel_unix_new(fd);
+		if (io_chan == NULL) {
+			ERR("Failed to create IO channel: %s\n", strerror(errno));
+			goto out;
+		}
+
+		io_source = g_io_create_watch(io_chan, G_IO_IN);
+		if (io_source == NULL) {
+			ERR("Failed to create IO source: %s\n", strerror(errno));
+			goto out;
+		}
+
+		_util_set_local_usb_status(MTP_PHONE_USB_DISCONNECTED);
+		g_source_set_callback(io_source, (GSourceFunc)usb_hotplug_cb, NULL, NULL);
+		g_source_attach(io_source, NULL);
+	}
+#endif
+
+	ret = _main_init();
+#ifndef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
+	if (MTP_ERROR_NONE != ret) {
+		ERR("_main_init() Fail(%d)", ret);
+		_eh_deregister_notification_callbacks();
+		_util_media_content_disconnect();
 		return MTP_ERROR_GENERAL;
 	}
+#endif
+
+	DBG("MTP UID = [%u] and GID = [%u]\n", getuid(), getgid());
 
 	g_mainloop = g_main_loop_new(NULL, FALSE);
 	if (g_mainloop == NULL) {
@@ -554,49 +664,32 @@ static inline int _main_init(void)
 		return MTP_ERROR_GENERAL;
 	}
 
-	return MTP_ERROR_NONE;
-}
-
-#ifndef TIZEN_TEST_GTESTS
-int main(int argc, char *argv[])
-{
-	mtp_int32 ret;
-
-#ifdef TIZEN_TEST_GCOV
-	setenv("GCOV_PREFIX", "/tmp/daemon", 1);
-#endif
-
-#ifdef TIZEN_TEST_GCOV
-	void __gcov_flush(void); // if you use C++, you should declare extern "C" at out of the function.
-	__gcov_flush();
-#endif
-
-	if (_transport_select_driver() == FALSE) {
-		ERR("_transport_select_driver fail");
-		return MTP_ERROR_GENERAL;
-	}
-
-	if (_eh_register_notification_callbacks() == FALSE) {
-		ERR("_eh_register_notification_callbacks() Fail");
-		return MTP_ERROR_GENERAL;
-	}
-
-	ret = _main_init();
-	if (MTP_ERROR_NONE != ret) {
-		ERR("_main_init() Fail(%d)", ret);
-		_eh_deregister_notification_callbacks();
-		_util_media_content_disconnect();
-		return MTP_ERROR_GENERAL;
-	}
-	DBG("MTP UID = [%u] and GID = [%u]\n", getuid(), getgid());
-
 	g_main_loop_run(g_mainloop);
+
+#ifdef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
+out:
+	if (io_source != NULL) {
+		g_source_destroy(io_source);
+	}
+
+	if (io_chan != NULL) {
+		g_io_channel_unref(io_chan);
+	}
+
+	if (watch_fd > 0) {
+		inotify_rm_watch(fd, watch_fd);
+	}
+
+	if (fd > 0) {
+		close(fd);
+	}
+#endif
 
 	_eh_deregister_notification_callbacks();
 	media_content_disconnect();
 
 	DBG("######### MTP TERMINATED #########");
 
-	return MTP_ERROR_NONE;
+	return ret;
 }
 #endif
