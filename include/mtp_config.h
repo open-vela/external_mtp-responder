@@ -76,6 +76,9 @@
 /*Using timer to check stroage whether is mounted*/
 /*#define MTP_SUPPORT_CHECK_STORAGE*/
 
+/*Enable user-specific directories under MTP_INTERNAL_PATH_CHAR*/
+/*#define MTP_INTERNAL_USER_NAME_DIRECTORY */
+
 /*Using INOTIFY to check usb hotplug*/
 #define MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
 
