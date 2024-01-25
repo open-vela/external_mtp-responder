@@ -43,6 +43,7 @@
 extern pthread_t g_eh_thrd;
 extern pthread_mutex_t g_cmd_inoti_mutex;
 extern mtp_bool g_is_sync_estab;
+extern mtp_bool g_is_send_object;
 
 mtp_mgr_t g_mtp_mgr;
 mtp_config_t g_conf;
@@ -70,6 +71,8 @@ static void __mtp_exit(void);
 static void __mtp_exit(void)
 {
 	time_t cur_time;
+
+	g_is_send_object = FALSE;
 
 	DBG("## Terminate all threads");
 	if (g_eh_thrd && g_eh_thrd != pthread_self()) {
