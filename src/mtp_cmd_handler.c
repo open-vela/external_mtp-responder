@@ -44,7 +44,7 @@ extern pthread_mutex_t g_cmd_inoti_mutex;
 extern mtp_config_t g_conf;
 
 mtp_bool g_is_sync_estab = FALSE;
-static mtp_bool g_is_send_object = FALSE;
+mtp_bool g_is_send_object = FALSE;
 
 /*
  * STATIC VARIABLES
