@@ -442,8 +442,10 @@ void _util_get_internal_path(char *internal_path)
 
 	if (internal_path != NULL) {
 		strncpy(internal_path, MTP_INTERNAL_PATH_CHAR, MTP_MAX_PATHNAME_SIZE);
+#ifdef MTP_INTERNAL_USER_NAME_DIRECTORY
 		strncat(internal_path, active_name, MTP_MAX_PATHNAME_SIZE - sizeof(MTP_INTERNAL_PATH_CHAR));
 		strncat(internal_path, "/media", 7);
+#endif
 		internal_path[strlen(internal_path)] = 0;
 	}
 
