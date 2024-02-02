@@ -2764,6 +2764,7 @@ static void __send_object_prop_list(mtp_handler_t *hdlr)
 
 	f_size = (fsize_hbits << 32) + _hdlr_get_param_cmd_container
 		(&(hdlr->usb_cmd), 4);
+	g_mgr->ftemp_st.real_file_size = f_size;
 
 	_device_set_phase(DEVICE_PHASE_DATAOUT);
 	_hdlr_init_data_container(&blk, hdlr->usb_cmd.code, hdlr->usb_cmd.tid);
@@ -3407,7 +3408,9 @@ static mtp_bool __receive_temp_file_next_packets(mtp_char *data,
 
 	/*Complete file is recieved, so close the file*/
 //	if (data_len < rx_size ||
-	if (g_mgr->ftemp_st.size_remaining == g_mgr->ftemp_st.file_size) {
+	if (g_mgr->ftemp_st.size_remaining == g_mgr->ftemp_st.file_size ||
+			(g_mgr->ftemp_st.file_size == 0xffffffff &&
+			 g_mgr->ftemp_st.size_remaining == g_mgr->ftemp_st.real_file_size)) {
 
 		if (_util_file_write(g_mgr->ftemp_st.fhandle, buffer, *data_sz) != *data_sz)
 			ERR("fwrite error write size=[%u]\n", *data_sz);

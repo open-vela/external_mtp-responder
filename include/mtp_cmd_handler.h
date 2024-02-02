@@ -84,6 +84,7 @@ typedef struct {
 	FILE* fhandle;	/* for temporary mtp file */
 	mtp_char *filepath;
 	mtp_uint64 file_size;
+	mtp_uint64 real_file_size;
 	mtp_uint64 size_remaining;
 	/* PC-> Device file transfer user space buffering till 512K*/
 	mtp_char *temp_buff;
