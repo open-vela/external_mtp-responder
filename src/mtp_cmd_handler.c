@@ -3395,8 +3395,6 @@ static mtp_bool __receive_temp_file_next_packets(mtp_char *data,
 
 	if ((*data_sz + (mtp_uint32)data_len) > g_conf.write_file_size) {
 		/* copy oversized packet to temp file */
-		ERR("write file: remaing:%llu, count:%d, filesize:%llu\n",
-                    g_mgr->ftemp_st.size_remaining, g_mgr->ftemp_st.data_count, g_mgr->ftemp_st.file_size);
 		if (_util_file_write(g_mgr->ftemp_st.fhandle, buffer, *data_sz) != *data_sz)
 			ERR("fwrite error writeSize=[%u]\n", *data_sz);
 
@@ -3423,8 +3421,8 @@ static mtp_bool __receive_temp_file_next_packets(mtp_char *data,
 		elapsed  = (((uint64_t)end_time.tv_sec * NSEC_PER_SEC) + end_time.tv_nsec);
 		elapsed -= (((uint64_t)start_time.tv_sec * NSEC_PER_SEC) + start_time.tv_nsec);
 		elapsed /= NSEC_PER_USEC;
-		ERR("mtp statistics log name: %s, file_size:%llu, speed:%u KB/s\n", g_mgr->ftemp_st.filepath, g_mgr->ftemp_st.file_size,
-				(unsigned int)(((double)g_mgr->ftemp_st.file_size / 1024) / ((double)elapsed / USEC_PER_SEC)));
+		ERR("mtp statistics log name: %s, file_size:%llu, speed:%u KB/s\n", g_mgr->ftemp_st.filepath, g_mgr->ftemp_st.real_file_size,
+				(unsigned int)(((double)g_mgr->ftemp_st.real_file_size / 1024) / ((double)elapsed / USEC_PER_SEC)));
 
 		__finish_receiving_file_packets(data, data_len);
 	}
