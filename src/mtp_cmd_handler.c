@@ -3188,8 +3188,6 @@ void _receive_mq_data_cb(mtp_char *buffer, mtp_int32 buf_len)
 		cmd_container_t *tmp;
 		mtp_dword len = 0;
 		mtp_word type = 0;
-		mtp_word code = 0;
-		mtp_dword trid = 0;
 
 		if (buffer == NULL)
 			return;
@@ -3216,11 +3214,9 @@ void _receive_mq_data_cb(mtp_char *buffer, mtp_int32 buf_len)
 
 		len = tmp->len;
 		type = tmp->type;
-		code = tmp->code;
-		trid = tmp->tid;
 
 		DBG("len[%lu], type[0x%x], code [0x%x], trid[0x%lu]\n",
-				len, type, code, trid);
+				len, type, tmp->code, tmp->tid);
 
 		if (_hdlr_validate_cmd_container((mtp_byte *)tmp, len)
 				== FALSE) {
