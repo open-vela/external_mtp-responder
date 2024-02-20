@@ -27,6 +27,7 @@
 #include "ptp_datacodes.h"
 #include <fcntl.h>
 #include <glib.h>
+#include <poll.h>
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/prctl.h>
@@ -170,10 +171,14 @@ static void* ffs_transport_thread_usb_write(void* arg)
 {
     mtp_int32 status = 0;
     mtp_uint32 len = 0;
+    mtp_uint32 written = 0;
+    struct pollfd fds[1];
     unsigned char* mtp_buf = NULL;
     msg_type_t mtype = MTP_UNDEFINED_PACKET;
     msgq_id_t* mqid = (msgq_id_t*)arg;
     pthread_cleanup_push(__clean_up_msg_queue, mqid);
+    fds[0].fd = g_usb_ep_in;
+    fds[0].events = POLLOUT;
     do {
         /* original LinuxThreads cancelation didn't work right
 	 * so test for it explicitly.
@@ -181,14 +186,31 @@ static void* ffs_transport_thread_usb_write(void* arg)
         pthread_testcancel();
         _util_rcv_msg_from_mq(*mqid, &mtp_buf, &len, &mtype);
         if (mtype == MTP_BULK_PACKET || mtype == MTP_DATA_PACKET) {
-            status = write(g_usb_ep_in, mtp_buf, len);
-            if (status < 0) {
-                ERR("USB write fail : %d\n", errno);
-                if (errno == ENOMEM || errno == ECANCELED) {
-                    status = 0;
-                    __clean_up_msg_queue(mqid);
+            while (written != len) {
+                status = poll(fds, 1, -1);
+                if (status < 0) {
+                    if (errno != EINTR) {
+                        ERR("USB poll fail : %d\n", errno);
+                    }
+                    continue;
+                }
+
+                if ((fds[0].revents & POLLOUT) == 0) {
+                    continue;
+                }
+
+                status = write(g_usb_ep_in, mtp_buf + written, len - written);
+                if (status < 0) {
+                    ERR("USB write fail : %d\n", errno);
+                    if (errno == ENOMEM || errno == ECANCELED) {
+                        status = 0;
+                        __clean_up_msg_queue(mqid);
+                    }
+                } else {
+                    written += status;
                 }
             }
+            written = 0;
             g_free(mtp_buf);
             mtp_buf = NULL;
         } else if (MTP_EVENT_PACKET == mtype) {
