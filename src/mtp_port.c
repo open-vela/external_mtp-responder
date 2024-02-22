@@ -158,7 +158,7 @@ char* vconf_get_str(const char* key)
 
 int vconf_set_str(const char* key, const char* strval)
 {
-    if (property_set_buffer(key, strval, sizeof(strval)) < 0) {
+    if (property_set_buffer(key, strval, strlen(strval)) < 0) {
         return -1;
     }
 
