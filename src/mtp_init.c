@@ -564,6 +564,10 @@ static gboolean usb_hotplug_cb(GIOChannel *chan, GIOCondition cond, gpointer dat
 	char *p;
 
 	ret = read(g_io_channel_unix_get_fd(chan), buffer, sizeof(buffer));
+	if (ret < 0) {
+		ERR("usb_hotplug_cb() read notify event Fail:%d", errno);
+		return FALSE;
+	}
 
 	for (p = buffer; p < buffer + ret;) {
 		struct inotify_event *event = (struct inotify_event *)p;
@@ -588,7 +592,7 @@ static gboolean usb_hotplug_cb(GIOChannel *chan, GIOCondition cond, gpointer dat
 #ifndef TIZEN_TEST_GTESTS
 int main(int argc, char *argv[])
 {
-	mtp_int32 ret;
+	mtp_int32 ret = -1;
 	pthread_mutexattr_t mutex_attr;
 #ifdef MTP_SUPPORT_CHECK_HOTPLUG_BY_NOTIFY
 	mtp_int32 fd = -1;
