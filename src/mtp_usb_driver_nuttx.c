@@ -113,8 +113,6 @@ static mtp_bool ffs_transport_init_usb_device(void)
     pkt_size.tx = g_conf.write_usb_size;
     DBG("Final : Tx pkt size:[%u], Rx pkt size:[%u]\n", pkt_size.tx, pkt_size.rx);
     msg_size = sizeof(msgq_ptr_t) - sizeof(long);
-    if (msg_size < CONFIG_MQ_MAXMSGSIZE)
-	    msg_size = CONFIG_MQ_MAXMSGSIZE;
     rx_mq_sz = (g_conf.max_io_buf_size / g_conf.max_rx_ipc_size) * msg_size;
     tx_mq_sz = (g_conf.max_io_buf_size / g_conf.max_tx_ipc_size) * msg_size;
     DBG("RX MQ size :[%u], TX MQ size:[%u]\n", rx_mq_sz, tx_mq_sz);
