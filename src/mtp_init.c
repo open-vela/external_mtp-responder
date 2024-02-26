@@ -560,7 +560,7 @@ static inline int _main_init(void)
 static gboolean usb_hotplug_cb(GIOChannel *chan, GIOCondition cond, gpointer data)
 {
 	char buffer[256];
-	size_t ret;
+	mtp_int32 ret;
 	char *p;
 
 	ret = read(g_io_channel_unix_get_fd(chan), buffer, sizeof(buffer));
