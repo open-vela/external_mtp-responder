@@ -753,6 +753,7 @@ static void __get_object(mtp_handler_t *hdlr)
 	path = obj->file_path;
 	num_bytes = obj->obj_info->file_size;
 	total_len = num_bytes + sizeof(header_container_t);
+	ERR("file:%s total_len:%lld, num_bytes:%lld\n", path, total_len, num_bytes);
 	packet_len = total_len < g_conf.read_file_size ? num_bytes :
 		(g_conf.read_file_size - sizeof(header_container_t));
 
@@ -767,6 +768,7 @@ static void __get_object(mtp_handler_t *hdlr)
 
 	_device_set_phase(DEVICE_PHASE_DATAIN);
 	h_file = _util_file_open(path, MTP_FILE_READ, &error);
+        ERR("open:%s, file:%p\n",path, h_file);
 	if (h_file == NULL) {
 		ERR("_util_file_open() Fail");
 		_device_set_phase(DEVICE_PHASE_NOTREADY);
@@ -782,6 +784,7 @@ static void __get_object(mtp_handler_t *hdlr)
 	}
 
 	_util_file_read(h_file, ptr, packet_len, &read_len);
+	ERR("read, file:%p, read_len:%d\n", h_file, read_len);
 	if (0 == read_len) {
 		ERR("_util_file_read() Fail");
 		ERR_SECURE("filename[%s]", path);
@@ -805,6 +808,7 @@ static void __get_object(mtp_handler_t *hdlr)
 
 	while (sent < total_len) {
 		_util_file_read(h_file, ptr, g_conf.read_file_size, &read_len);
+		ERR("read, file:%p, read_len:%d, sent:%lld\n", h_file, read_len, sent);
 		if (0 == read_len) {
 			ERR("_util_file_read() Fail");
 			ERR_SECURE("filename[%s]\n", path);
@@ -829,6 +833,7 @@ static void __get_object(mtp_handler_t *hdlr)
 		_transport_send_zlp();
 
 Done:
+	ERR("close, file:%p, sent:%lld\n", h_file, sent);
 	_util_file_close(h_file);
 
 	g_free(blk.data);
