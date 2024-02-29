@@ -809,6 +809,7 @@ mtp_bool _util_get_filesystem_info_ext(mtp_char *storepath,
 	mtp_uint64 avail_size = 0;
 	mtp_uint64 capacity = 0;
 	mtp_uint64 used_size = 0;
+	mtp_uint64 reserved = 1024ull *1024 *1024;
 
 	if (statfs(storepath, &buf) != 0) {
 		ERR("statfs is failed\n");
@@ -818,12 +819,13 @@ mtp_bool _util_get_filesystem_info_ext(mtp_char *storepath,
 	capacity = used_size = avail_size = (mtp_uint64)buf.f_bsize;
 	DBG("Block size : %lu\n", (unsigned long)buf.f_bsize);
 	capacity *= buf.f_blocks;
+
 	used_size *= (buf.f_blocks - buf.f_bavail);
 	avail_size *= buf.f_bavail;
 
-	fs_info->disk_size = capacity;
+	fs_info->disk_size = capacity - reserved;
 	fs_info->reserved_size = used_size;
-	fs_info->avail_size = avail_size;
+	fs_info->avail_size = avail_size - reserved;
 
 	return TRUE;
 }
