@@ -132,6 +132,8 @@ mtp_bool _eh_handle_usb_events(mtp_uint32 type)
 			break;
 		}
 
+		ERR("USB is connected");
+
 		res = pipe(g_pipefd);
 		if (res < 0) {
 			ERR("pipe() Fail");
@@ -159,7 +161,7 @@ mtp_bool _eh_handle_usb_events(mtp_uint32 type)
 
 		is_usb_inserted = 0;
 		is_usb_removed = 1;
-		DBG("USB is disconnected");
+		ERR("USB is disconnected");
 
 		_transport_set_usb_discon_state(TRUE);
 		_transport_set_cancel_initialization(TRUE);
@@ -459,7 +461,7 @@ void _eh_send_event_req_to_eh_thread(event_code_t action, mtp_ulong param1,
 	event.param2 = param2;
 	event.param3 = (mtp_ulong)param3;
 
-	DBG("action[%d], param1[%ld], param2[%ld]\n", action, param1, param2);
+	ERR("action[%d], param1[%ld], param2[%ld]\n", action, param1, param2);
 
 	status = write(g_pipefd[1], &event, sizeof(mtp_event_t));
 	if (status == -1 || errno == EINTR) {

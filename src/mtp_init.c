@@ -74,7 +74,7 @@ static void __mtp_exit(void)
 
 	g_is_send_object = FALSE;
 
-	DBG("## Terminate all threads");
+	ERR("## Terminate all threads");
 	if (g_eh_thrd && g_eh_thrd != pthread_self()) {
 		_eh_send_event_req_to_eh_thread(EVENT_USB_REMOVED, 0, 0, NULL);
 		if (_util_thread_join(g_eh_thrd, NULL) == FALSE)
