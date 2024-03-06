@@ -135,7 +135,7 @@ char* vconf_get_str(const char* key)
     char* pstr = malloc(PROP_VALUE_MAX);
 
     if (strcmp(key, VCONFKEY_SETAPPL_DEVICE_NAME_STR) == 0) {
-        strlcpy(pstr, "XiaoMi Watch", PROP_VALUE_MAX);
+        strlcpy(pstr, "Xiaomi Watch S Ultra", PROP_VALUE_MAX);
     } else if (strcmp(key, VCONFKEY_MTP_SYNC_PARTNER_STR) == 0) {
         strlcpy(pstr, MTP_DEV_PROPERTY_SYNCPARTNER, PROP_VALUE_MAX);
     } else {
