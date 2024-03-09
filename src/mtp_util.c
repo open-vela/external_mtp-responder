@@ -295,8 +295,10 @@ void _util_get_lock_status(phone_status_t *val)
 
 	if (state)
 		*val = MTP_PHONE_LOCK_ON;
+#ifndef MTP_INTERNAL_STORAGE_LOCK_ON
 	else
 		*val = MTP_PHONE_LOCK_OFF;
+#endif
 	return;
 }
 /* LCOV_EXCL_STOP */

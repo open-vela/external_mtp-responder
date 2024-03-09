@@ -809,7 +809,7 @@ mtp_bool _util_get_filesystem_info_ext(mtp_char *storepath,
 	mtp_uint64 avail_size = 0;
 	mtp_uint64 capacity = 0;
 	mtp_uint64 used_size = 0;
-	mtp_uint64 reserved = 1024ull *1024 *1024;
+	mtp_uint64 reserved = MTP_EXTERNAL_STORAGE_RESERVED_SPACE * 1024ull * 1024;
 
 	if (statfs(storepath, &buf) != 0) {
 		ERR("statfs is failed\n");
