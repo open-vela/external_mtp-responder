@@ -1199,7 +1199,7 @@ void _entity_store_recursive_enum_folder_objects(mtp_store_t *store,
 		if (file_name[0] == '.') {
 			DBG_SECURE("Hidden file [%s]\n", entry.filename);
 		} else if (entry.type == MTP_DIR_TYPE) {
-			if (strstr(entry.filename, "map") == NULL)
+			if (strstr(entry.filename, MTP_EXTERNAL_STORAGE_DICLIST) == NULL)
 				goto NEXT;
 
 			obj = _entity_add_folder_to_store(store, h_parent,
@@ -1212,7 +1212,7 @@ void _entity_store_recursive_enum_folder_objects(mtp_store_t *store,
 
 			_entity_store_recursive_enum_folder_objects(store, obj);
 		} else if (entry.type == MTP_FILE_TYPE) {
-			if (strstr(entry.filename, "map") == NULL)
+			if (strstr(entry.filename, MTP_EXTERNAL_STORAGE_DICLIST) == NULL)
 				goto NEXT;
 
 			_entity_add_file_to_store(store, h_parent,

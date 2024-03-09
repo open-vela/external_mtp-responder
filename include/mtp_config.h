@@ -86,11 +86,16 @@
  * Transport related configuration
  */
 /* Internal Storage */
+#ifndef MTP_INTERNAL_PATH_CHAR
 #define MTP_INTERNAL_PATH_CHAR		"/log/"
+#endif
 
 /* External Storage */
 #define MTP_EXTERNAL_PATH_CHAR		"/data/"
+
+#ifndef MTP_DEVICE_ICON
 #define MTP_DEVICE_ICON			"/data/mtp/device_icon.ico"
+#endif
 
 /* File For WMP extesions */
 #define MTP_FILES_MODIFIED_FILES	"/tmp/mtp_mod_files.log"
@@ -127,10 +132,16 @@
 #define MTP_STORAGE_DESC_EXT		"Card"
 
 /*Devices Property*/
+#ifndef MTP_DEFAULT_MODEL_NAME
 #define MTP_DEFAULT_MODEL_NAME			"Xiaomi Watch"
+#endif
+
 #define MTP_DEFAULT_DEVICE_VERSION		"1.0"
 #define MTP_DEV_PROPERTY_SYNCPARTNER		"None"
+#ifndef MTP_DEV_PROPERTY_FRIENDLYNAME
 #define MTP_DEV_PROPERTY_FRIENDLYNAME		"Xiaomi Watch"
+#endif
+
 #define MTP_DEV_PROPERTY_NULL_SYNCPARTNER	"{00000000-0000-0000-0000-000000000000}"
 
 /*temporary file*/
@@ -177,6 +188,16 @@
  */
 /*#define MTP_USE_DEPEND_DEFAULT_MEMORY*/
 #define MTP_SUPPORT_OMADRM_EXTENSION
+
+/* The external storage directory list */
+#ifndef MTP_EXTERNAL_STORAGE_DICLIST
+#define MTP_EXTERNAL_STORAGE_DICLIST    ""
+#endif
+
+/* The reserved space of external storage */
+#ifndef MTP_EXTERNAL_STORAGE_RESERVED_SPACE
+#define MTP_EXTERNAL_STORAGE_RESERVED_SPACE 1024 //unit in MB
+#endif
 
 /* Image Height/Width */
 #define MTP_MAX_IMG_WIDTH		32672
