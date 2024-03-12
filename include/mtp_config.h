@@ -179,6 +179,11 @@
 #define MTP_MODEL_NAME_LEN_MAX		32
 #define MTP_DEVICE_NAME_LEN_MAX		64
 
+/* The priority of thread */
+#ifndef MTP_DEFAULT_THREAD_PRIORITY
+#define MTP_DEFAULT_THREAD_PRIORITY	100
+#endif
+
 /* The stack size of thread */
 #define MTP_DEFAULT_STACK_SIZE		8192
 #define MTP_TRANSPORT_STACK_SIZE	32768
