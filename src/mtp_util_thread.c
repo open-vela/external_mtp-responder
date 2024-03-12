@@ -24,6 +24,7 @@ mtp_bool _util_thread_create_with_stack(pthread_t *tid, const mtp_char *tname,
 {
 	int error = 0;
 	pthread_attr_t attr;
+	struct sched_param param;
 
 	retv_if(tname == NULL, FALSE);
 	retv_if(thread_func == NULL, FALSE);
@@ -45,6 +46,9 @@ mtp_bool _util_thread_create_with_stack(pthread_t *tid, const mtp_char *tname,
 			/* LCOV_EXCL_STOP */
 		}
 	}
+
+	param.sched_priority = MTP_DEFAULT_THREAD_PRIORITY;
+	pthread_attr_setschedparam(&attr, &param);
 
 	pthread_attr_setstacksize(&attr, stacksize);
 	error = pthread_create(tid, &attr, thread_func, arg);
