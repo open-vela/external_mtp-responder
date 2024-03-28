@@ -18,6 +18,7 @@
 #include "ptp_container.h"
 #include "ptp_datacodes.h"
 #include "mtp_transport.h"
+#include "mtp_usb_driver.h"
 #include "mtp_util_support.h"
 #include "mtp_util.h"
 
@@ -178,6 +179,9 @@ mtp_bool _hdlr_send_data_container(data_container_t *dst)
 
 	if (sent != dst->len)
 		return FALSE;
+
+	if ((sent % _transport_get_usb_packet_len()) == 0)
+		_transport_send_zlp();
 
 	return TRUE;
 }
