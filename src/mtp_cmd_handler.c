@@ -97,7 +97,9 @@ static void __set_object_protection(mtp_handler_t *hdlr);
 #endif /* MTP_SUPPORT_SET_PROTECTION */
 static void __power_down(mtp_handler_t *hdlr);
 static void __move_object(mtp_handler_t *hdlr);
+#ifdef CONFIG_MTP_RESPONDER_OP_COPYOBJECT_ENABLE
 static void __copy_object(mtp_handler_t *hdlr);
+#endif
 static void __reset_device_prop_value(mtp_handler_t *hdlr);
 static void __vendor_command1(mtp_handler_t *hdlr);
 static void __get_interdep_prop_desc(mtp_handler_t *hdlr);
@@ -264,9 +266,11 @@ static void __process_commands(mtp_handler_t *hdlr, cmd_blk_t *cmd)
 	case PTP_OPCODE_MOVEOBJECT:
 		__move_object(hdlr);
 		break;
+#ifdef CONFIG_MTP_RESPONDER_OP_COPYOBJECT_ENABLE
 	case PTP_OPCODE_COPYOBJECT:
 		__copy_object(hdlr);
 		break;
+#endif
 	case MTP_OPCODE_GETINTERDEPPROPDESC:
 		__get_interdep_prop_desc(hdlr);
 		break;
@@ -2568,6 +2572,7 @@ static void __move_object(mtp_handler_t *hdlr)
 	return;
 }
 
+#ifdef CONFIG_MTP_RESPONDER_OP_COPYOBJECT_ENABLE
 static void __copy_object(mtp_handler_t *hdlr)
 {
 	mtp_uint32 store_id = 0;
@@ -2623,6 +2628,7 @@ static void __copy_object(mtp_handler_t *hdlr)
 
 	return;
 }
+#endif
 
 static void __reset_device_prop_value(mtp_handler_t *hdlr)
 {
@@ -3070,9 +3076,11 @@ static void __print_command(mtp_uint16 code)
 	case PTP_OPCODE_MOVEOBJECT:
 		DBG("COMMAND ======== MOVE OBJECT ===========");
 		break;
+#ifdef CONFIG_MTP_RESPONDER_OP_COPYOBJECT_ENABLE
 	case PTP_OPCODE_COPYOBJECT:
 		DBG("COMMAND ======== COPY OBJECT ===========");
 		break;
+#endif
 	case PTP_OPCODE_GETPARTIALOBJECT:
 		DBG("COMMAND ======== GET PARTIAL OBJECT ===========");
 		break;
