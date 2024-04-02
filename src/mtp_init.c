@@ -208,6 +208,10 @@ void _mtp_init(add_rem_store_t sel)
 
 	_features_supported_info();
 
+#ifdef MTP_SUPPORT_OBJECTADDDELETE_EVENT
+	_inoti_init_filesystem_evnts();
+#endif /*MTP_SUPPORT_OBJECTADDDELETE_EVENT*/
+
 	/* Install storage */
 	_device_install_storage(sel);
 
@@ -216,10 +220,6 @@ void _mtp_init(add_rem_store_t sel)
 	_hutil_get_object_handles(MTP_INTERNAL_STORE_ID, 0, PTP_OBJECTHANDLE_ALL, &handle_arr);
 	_hutil_get_object_handles(MTP_EXTERNAL_STORE_ID, 0, PTP_OBJECTHANDLE_ALL, &handle_arr);
 	_prop_deinit_ptparray(&handle_arr);
-
-#ifdef MTP_SUPPORT_OBJECTADDDELETE_EVENT
-	_inoti_init_filesystem_evnts();
-#endif /*MTP_SUPPORT_OBJECTADDDELETE_EVENT*/
 
 	vconf_ret = vconf_notify_key_changed(VCONFKEY_IDLE_LOCK_STATE_READ_ONLY,
 			_handle_lock_status_notification, NULL);
