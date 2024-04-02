@@ -1229,7 +1229,9 @@ NEXT:
 		ERR("close directory fail");
 
 #ifdef MTP_SUPPORT_OBJECTADDDELETE_EVENT
-	_inoti_add_watch_for_fs_events(folder_name);
+	if (strlen(MTP_EXTERNAL_STORAGE_DICLIST) == 0 ||
+	    strstr(folder_name, MTP_EXTERNAL_STORAGE_DICLIST) != NULL)
+		_inoti_add_watch_for_fs_events(folder_name);
 #endif /*MTP_SUPPORT_OBJECTADDDELETE_EVENT*/
 
 	return;
