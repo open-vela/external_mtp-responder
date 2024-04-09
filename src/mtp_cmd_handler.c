@@ -3412,7 +3412,8 @@ static mtp_bool __receive_temp_file_next_packets(mtp_char *data,
 //	if (data_len < rx_size ||
 	if (g_mgr->ftemp_st.size_remaining == g_mgr->ftemp_st.file_size ||
 			(g_mgr->ftemp_st.file_size == 0xffffffff &&
-			 g_mgr->ftemp_st.size_remaining == g_mgr->ftemp_st.real_file_size)) {
+			 (g_mgr->ftemp_st.size_remaining == g_mgr->ftemp_st.real_file_size ||
+			  (g_mgr->ftemp_st.real_file_size == 0 && data_len < _transport_get_usb_packet_len())))) {
 
 		if (_util_file_write(g_mgr->ftemp_st.fhandle, buffer, *data_sz) != *data_sz)
 			ERR("fwrite error write size=[%u]\n", *data_sz);
