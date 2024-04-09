@@ -3417,8 +3417,9 @@ static mtp_bool __receive_temp_file_next_packets(mtp_char *data,
 		elapsed  = (((uint64_t)end_time.tv_sec * NSEC_PER_SEC) + end_time.tv_nsec);
 		elapsed -= (((uint64_t)start_time.tv_sec * NSEC_PER_SEC) + start_time.tv_nsec);
 		elapsed /= NSEC_PER_USEC;
-		ERR("mtp statistics log name: %s, file_size:%llu, speed:%u KB/s\n", g_mgr->ftemp_st.filepath, g_mgr->ftemp_st.real_file_size,
-				(unsigned int)(((double)g_mgr->ftemp_st.real_file_size / 1024) / ((double)elapsed / USEC_PER_SEC)));
+
+		ERR("mtp statistics log name: %s, file_size:%llu, speed:%u KB/s\n", g_mgr->ftemp_st.filepath, g_mgr->ftemp_st.size_remaining,
+				(unsigned int)(((double)g_mgr->ftemp_st.size_remaining / 1024) / ((double)elapsed / USEC_PER_SEC)));
 
 		__finish_receiving_file_packets(data, data_len);
 	}
