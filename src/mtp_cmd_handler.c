@@ -3362,8 +3362,8 @@ static mtp_bool __receive_temp_file_first_packet(mtp_char *data,
 	/* consider header size */
 	memcpy(&g_mgr->ftemp_st.header_buf, data, sizeof(header_container_t));
 
-	g_mgr->ftemp_st.file_size = ((header_container_t *)data)->len -
-		sizeof(header_container_t);
+	g_mgr->ftemp_st.file_size = ((header_container_t *)data)->len == 0xffffffff ?
+		((header_container_t *)data)->len : ((header_container_t *)data)->len - sizeof(header_container_t);
 	*data_sz = data_len - sizeof(header_container_t);
 
 	/* check whether last data packet */
