@@ -192,7 +192,7 @@ static mtp_bool __process_inoti_event(struct inotify_event *event)
 	mtp_char parentpath[MTP_MAX_PATHNAME_SIZE + 1] = { 0 };
 
 	if (event->len == 0 || event->len > MTP_MAX_FILENAME_SIZE) {
-		ERR_SECURE("Event len is invalid[%d], event->name[%s]\n", event->len,
+		ERR_SECURE("Event len is invalid[%"PRIu32"], event->name[%s]\n", event->len,
 				event->name);
 		return FALSE;
 	} else if (event->wd < 1) {
