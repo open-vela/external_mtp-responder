@@ -212,7 +212,7 @@ static mtp_bool __process_inoti_event(struct inotify_event *event)
 		ERR("path len is invalid");
 		return FALSE;
 	}
-	DBG_SECURE("Event full path = %s\n", full_path);
+	DBG_SECURE("Event full path = %s, mask = 0x%"PRIx32", cookie = 0x%"PRIx32"\n", full_path, event->mask, event->cookie);
 	if (event->mask & IN_MOVED_FROM) {
 		if (!g_strcmp0(g_last_moved, full_path)) {
 			/* Ignore this case as this is generated due to MTP*/
