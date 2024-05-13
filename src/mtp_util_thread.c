@@ -99,7 +99,7 @@ mtp_bool _util_thread_cancel(pthread_t tid)
 
 	res = pthread_cancel(tid);
 	if (res != 0) {
-		ERR("pthread_cancel Fail [%lu] errno [%d]\n", (unsigned long)tid, errno);
+		ERR("pthread_cancel Fail [%lu] errno [%d]\n", (unsigned long)tid, res);
 		return FALSE;
 	}
 
