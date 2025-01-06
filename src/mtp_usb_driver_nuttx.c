@@ -33,7 +33,6 @@
 #include <sys/prctl.h>
 #include <systemd/sd-daemon.h>
 #include <unistd.h>
-#include <nuttx/config.h>
 #include <nuttx/usb/usb.h>
 /*
  * GLOBAL AND EXTERN VARIABLES
