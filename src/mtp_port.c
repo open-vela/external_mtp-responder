@@ -133,13 +133,20 @@ int vconf_set_int(const char* key, int intval)
 char* vconf_get_str(const char* key)
 {
     char* pstr = malloc(PROP_VALUE_MAX);
+    if (pstr == NULL) {
+        return NULL;
+    }
 
     if (strcmp(key, VCONFKEY_SETAPPL_DEVICE_NAME_STR) == 0) {
         strlcpy(pstr, MTP_DEFAULT_MODEL_NAME, PROP_VALUE_MAX);
     } else if (strcmp(key, VCONFKEY_MTP_SYNC_PARTNER_STR) == 0) {
         strlcpy(pstr, MTP_DEV_PROPERTY_SYNCPARTNER, PROP_VALUE_MAX);
     } else {
-        property_get_buffer(key, pstr, PROP_VALUE_MAX);
+        ssize_t ret = property_get_buffer(key, pstr, PROP_VALUE_MAX);
+        if (ret < 0) {
+            free(pstr);
+            return NULL;
+        }
     }
 
     return pstr;
