@@ -39,6 +39,7 @@ extern "C" {
 #define MTP_EP_STATUS_PATH MTP_FFS_PATH "/ep3"
 
 /* These values come from f_mtp_slp.h of kernel source */
+#ifndef __NuttX__
 #define MTP_IOCTL_LETTER		'Z'
 #define MTP_GET_HIGH_FULL_SPEED		_IOR(MTP_IOCTL_LETTER, 1, int)
 #define MTP_DISABLE			_IO(MTP_IOCTL_LETTER, 2)
@@ -50,7 +51,7 @@ extern "C" {
 #define MTP_SEND_RESET_ACK		_IO(MTP_IOCTL_LETTER, 8)
 #define MTP_SET_ZLP_DATA		_IO(MTP_IOCTL_LETTER, 9)
 #define MTP_GET_MAX_PKT_SIZE		_IOR(MTP_IOCTL_LETTER, 22, void *)
-
+#endif
 #define SIG_SETUP			44
 /* End of driver related defines */
 
