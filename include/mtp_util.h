@@ -28,7 +28,7 @@ extern "C" {
 #ifndef LOG_TAG
 #define LOG_TAG "MTP-RESPONDER"
 #endif /* LOG_TAG */
-#include <log/log.h>
+#include <syslog.h>
 
 #define FIND_CMD_LEN				300
 #define FIND_CMD	"/usr/bin/find %s \\( -iname '*.jpg' -o -iname '*.gif' " \
@@ -37,10 +37,10 @@ extern "C" {
 	"-o -iname '*.wmv' -o -iname '*.avi' -o -iname '*.wma' " \
 	"-o -iname '*.mp3' \\) -mmin -%d >> %s"
 
-#define DBG(format, args...) //SLOGD(format, ##args)
-#define ERR(format, args...) SLOGE(format, ##args)
-#define DBG_SECURE(format, args...) SLOGD(format, ##args)
-#define ERR_SECURE(format, args...) SLOGE(format, ##args)
+#define DBG(format, args...) //syslog(LOG_DEBUG, format, ##args)
+#define ERR(format, args...) syslog(LOG_ERR, format, ##args)
+#define DBG_SECURE(format, args...) syslog(LOG_DEBUG, format, ##args)
+#define ERR_SECURE(format, args...) syslog(LOG_ERR, format, ##args)
 
 #define ret_if(expr) \
 	do { \
